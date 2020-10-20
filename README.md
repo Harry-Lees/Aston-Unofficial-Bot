@@ -1,3 +1,3 @@
 # Aston-Unofficial-Bot
 
-![Image of Yaktocat](https://github.com/Harry-Lees/Aston-Unofficial-Bot/.github/banner.png)
+![Aston Unofficial Banner](https://github.com/Harry-Lees/Aston-Unofficial-Bot/blob/main/.github/banner.png)
