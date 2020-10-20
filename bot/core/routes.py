@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, request
 
 blueprint = Blueprint('core', __name__, template_folder = 'templates')
 
@@ -8,9 +8,9 @@ def return_index():
 
 @blueprint.route('/verify', methods = ['GET', 'POST'])
 def verify_email():
-    verification_code = request.form.get('verification_code', None)
+    verification_code = request.args.get('verification_code', None)
 
     if verification_code:
-        return 'You have now been verified!'
+        return render_template('verify.html')
     else:
         return 'An error has occurred'

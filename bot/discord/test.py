@@ -3,7 +3,7 @@ import asyncio
 from threading import Thread
 from bot.email.send_email import send_email
 
-TOKEN = 'NzY4MTI0NzI1MDk1NDMyMjAy.X4755Q.9EpkDsCDeAqFej2Urt7H_05lRjE'
+TOKEN = input('please enter token: ')
 client = discord.Client()
 channel = client.get_channel('channel id')
 
@@ -27,6 +27,11 @@ We have lots of optional channels for things such as Gaming, Music, Tech, and mu
 To do this, please go into the #roles channel and react to the Optional message with your interests.
 '''
 
+verification_message = '''
+A verification link has been sent to your email! If you did not receive an email,
+please send another message containing your email address.
+'''
+
 verified_ids = []
 
 @client.event
@@ -42,11 +47,8 @@ async def on_message(message):
         if verified(message.author.id):
             await message.channel.send('You have already been verified on this server.')
         elif check_regex(message):
-            send_email()
-            await message.channel.send('''
-            A verification link has been sent to your email! If you did not receive an email,
-            please send another message containing your email address.
-            ''')
+            send_email('10')
+            await message.channel.send(verification_message)
         else:
             await message.channel.send('This is not a valid Email address. Please use a valid aston.ac.uk email address.')
     else:
