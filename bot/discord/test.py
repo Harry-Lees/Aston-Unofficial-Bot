@@ -1,58 +1,46 @@
-import discord
 import asyncio
+import sqlite3
+from random import randint
 from threading import Thread
-from bot.email.send_email import send_email
 
-TOKEN = input('please enter token: ')
+import discord
+
+TOKEN = input('please input discord token: ')
 client = discord.Client()
 channel = client.get_channel('channel id')
 
 welcome_message = '''
 Thanks for joining the **Aston Unofficial Discord Server**
 
-Please verify your email by responding to this message with your email address.
-You should receive an email in your inbox to verify your address.
+Please verify your email by clicking below:
+http://localhost:5000/verify_user?user_id={}
 
-Once you're all set up, here's what you can do:
+:warning: you will not be able to join the server without an aston.ac.uk email address :warning:
 
-**1. Read our info-rules channel**
+You will be allocated a teacher or student role when you join the server.
+These will grant you access to all general channels that you are applicable for.
+After joining, there are several things you can do:
+
+:book:  **1. Read our info-rules channel**
 This channel contains all the rules and regulations for our server.
 
-**2. Join a Subject**
+:teacher:  **2. Join a Subject**
 This gives you access to your subject specific channels where you can find people from your course!
 To do this, please go into the #roles channel and react to the Subjects message with your subject.
 
-**3. Join Optional Channels**
+:soccer:  **3. Join Optional Channels**
 We have lots of optional channels for things such as Gaming, Music, Tech, and much more!
 To do this, please go into the #roles channel and react to the Optional message with your interests.
 '''
 
-verification_message = '''
-A verification link has been sent to your email! If you did not receive an email,
-please send another message containing your email address.
-'''
-
-verified_ids = []
-
 @client.event
 async def on_member_join(member):
-    await member.send(welcome_message)
+    add_pending_user(member)
+    await member.send(welcome_message.format(member.id))
 
 @client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if not message.guild:
-        if verified(message.author.id):
-            await message.channel.send('You have already been verified on this server.')
-        elif check_regex(message):
-            send_email('10')
-            await message.channel.send(verification_message)
-        else:
-            await message.channel.send('This is not a valid Email address. Please use a valid aston.ac.uk email address.')
-    else:
-        print('not working')
+async def on_member_remove(member):
+    remove_user(member)
 
 @client.event
 async def on_ready():
@@ -60,15 +48,13 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
 
-def verified(author_id):
-    if author_id in verified_ids:
-        return True
-    else:
-        verified_ids.append(author_id)
-        return False
+async def add_role(user_id: str, role: str):
+    roles = {
+        'staff' : '761523175170244608',
+        'student' : '756099685558779953',
+    }
 
-def check_regex(message):
-    return True
+    await client.add_roles(user_id, role)
 
 def run_bot():
     loop = asyncio.get_event_loop()
@@ -76,3 +62,20 @@ def run_bot():
     
     thread = Thread(target=loop.run_forever)
     thread.start()
+
+def add_pending_user(user) -> None:
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+    
+    uuid = ''.join(str(randint(0, 9)) for i in range(5))
+    cursor.execute('INSERT INTO pending_users VALUES(?, ?)', [user.id, uuid])
+    connection.commit()
+
+def remove_user(user) -> None:
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+
+    cursor.execute('DELETE FROM pending_users WHERE id = ?', [user.id])
+    cursor.execute('DELETE FROM user WHERE id = ?', [user.id])
+
+    connection.commit()

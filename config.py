@@ -4,7 +4,7 @@ import os
 class Config(object):
     DEBUG = False
     TESTING = False
-
+    SECRET_KEY = 'something very secret here'
 
 class ProductionConfig(Config):
     DEBUG = False
