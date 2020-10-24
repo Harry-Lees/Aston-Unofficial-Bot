@@ -85,4 +85,5 @@ def confirm_verification(user_id: str, email_address: str) -> None:
     cursor.execute('INSERT INTO user VALUES(?, ?, ?)', [user_id, email_address, is_student])
     connection.commit()
 
-def assign_permissions
+def assign_permissions():
+    pass
