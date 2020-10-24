@@ -1,5 +1,7 @@
 # Aston-Unofficial-Bot
 
+![Aston Unofficial Banner](https://github.com/Harry-Lees/Aston-Unofficial-Bot/blob/main/.github/banner.png)
+
 ## Table of Contents
 
 * [About the Project](#about-the-project)
@@ -11,8 +13,6 @@
 * [License](#license)
 
 ## About The Project
-
-![Aston Unofficial Banner](https://github.com/Harry-Lees/Aston-Unofficial-Bot/blob/main/.github/banner.png)
 
 Aston Unofficial Bot is a verification bot for the Aston Unofficial Discord server. It aims to verify that students have an aston.ac.uk email address. Furthermore, based on the format of the numeric email addresses, it can dynamically assign the correct roles to students.
 
