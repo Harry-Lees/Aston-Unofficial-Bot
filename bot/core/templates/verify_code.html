@@ -64,6 +64,13 @@
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: #f5f5f5;
+        }          
     </style>
 
   </head>
@@ -90,7 +97,14 @@
         
         {{ form.verification_code(class = 'form-control', placeholder = 'Enter Verification Code')}}
         {{ form.submit(class = 'btn btn-lg btn-primary btn-block mt-3') }}
-        <p class="mt-5 mb-3 text-muted">Made with <i class="fas fa-heart text-danger"></i> by Harry Lees</p>
+    
+        <p>Not received? Click here!</p>
     </form>
-  </body>
+    
+    <footer class="footer">
+        <div class="inner">
+          <p>Made with <i class="fas fa-heart text-danger"></i> by Harry Lees</p>
+        </div>
+    </footer>
+</body>
 </html>

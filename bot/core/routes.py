@@ -23,9 +23,13 @@ def verify_code():
     user_id = session.get('user_id')
     email_address = session.get('email_address')
 
+    if (not user_id) or (not email_address):
+        flash('Something went wrong!')
+
     if form.validate_on_submit():
         if code_valid(user_id, form.verification_code.data):
             confirm_verification(user_id, email_address)
+            assign_permissions(user_id, email_address)
             return redirect(url_for('core.verification_successful'))
         else:
             flash('the code you entered was invalid')
@@ -80,3 +84,5 @@ def confirm_verification(user_id: str, email_address: str) -> None:
     cursor.execute('DELETE FROM pending_users WHERE id = ?', [user_id])
     cursor.execute('INSERT INTO user VALUES(?, ?, ?)', [user_id, email_address, is_student])
     connection.commit()
+
+def assign_permissions

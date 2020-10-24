@@ -73,6 +73,7 @@
     <form class="form-signin" action = '' method = 'post'>
         {{ form.csrf_token }}
         <h1 class="h3 mb-3 font-weight-normal">Enter your Email!</h1>
+        <p class = 'text-muted'>Please enter a valid aston.ac.uk email address</p>
 
         {% with messages = get_flashed_messages() %}
           {% if messages %}
@@ -86,7 +87,13 @@
         
         {{ form.email(class = 'form-control', placeholder = 'Enter Email')}}
         {{ form.submit(class = 'btn btn-lg btn-primary btn-block mt-3') }}
-        <p class="mt-5 mb-3 text-muted">Made with <i class="fas fa-heart text-danger"></i> by Harry Lees</p>
+
     </form>
-  </body>
+    
+    <footer style = 'position: fixed; bottom: 0;'>
+        <div class="inner">
+          <p>Made with <i class="fas fa-heart text-danger"></i> by Harry Lees</p>
+        </div>
+    </footer>
+</body>
 </html>
