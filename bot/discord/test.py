@@ -5,7 +5,7 @@ from threading import Thread
 
 import discord
 
-TOKEN = input('please input discord token: ')
+TOKEN = 'NzY4MTI0NzI1MDk1NDMyMjAy.X4755Q.ASMhkTLErRe85Zrif5Q8znE85xs'
 client = discord.Client()
 channel = client.get_channel('channel id')
 
@@ -13,7 +13,7 @@ welcome_message = '''
 Thanks for joining the **Aston Unofficial Discord Server**
 
 Please verify your email by clicking below:
-http://localhost:5000/verify_user?user_id={}
+http://172.16.12.133:5000/verify_user?user_id={}
 
 :warning: you will not be able to join the server without an aston.ac.uk email address :warning:
 

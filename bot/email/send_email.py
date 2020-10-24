@@ -9,7 +9,7 @@ from flask import url_for
 from jinja2 import Template
 
 sender_email = 'astonunofficial@gmail.com'
-password = input('please enter email password: ')
+password = 'jox6DWAY@sqoc5hall'
 
 message = MIMEMultipart('alternative')
 
