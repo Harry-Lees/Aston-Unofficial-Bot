@@ -30,19 +30,14 @@ def send_email(user_id: str, receiver_email: str) -> None:
     template = Template(open('bot/static/email_template.html').read())
     formatted_template = template.render(verification_code = verification_code)
 
-    # Turn these into plain/html MIMEText objects
     part1 = MIMEText(text, 'plain')
     part2 = MIMEText(formatted_template, 'html')
 
-    fp = open('bot/static/images/banner.png', 'rb')
-    msgImage = MIMEImage(fp.read(), _subtype = 'png')
-    fp.close()
+    with open('bot/static/images/banner.png', 'rb') as file:
+        msgImage = MIMEImage(file.read(), _subtype = 'png')
 
-    # Define the image's ID as referenced above
     msgImage.add_header('Content-ID', '<image1>')
 
-    # Add HTML/plain-text parts to MIMEMultipart message
-    # The email client will try to render the last part first
     message.attach(msgImage)
     message.attach(part1)
     message.attach(part2)
