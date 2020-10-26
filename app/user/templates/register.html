@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
-    <meta name='author' content='Harry Lees'>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
     <title>Verify Email</title>
 
@@ -69,10 +70,30 @@
   </head>
 
   <body class="text-center">
-    <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Welcome!</h4>
-        <hr>
-        <p>You have been successfully verified on the Aston Unofficial Discord server. You can now continue to Discord!</p>
-    </div>
-  </body>
+    <form class="form-signin" action = '' method = 'post'>
+        {{ form.csrf_token }}
+        <h1 class="h3 mb-3 font-weight-normal">Enter your Email!</h1>
+        <p class = 'text-muted'>Please enter a valid aston.ac.uk email address</p>
+
+        {% with messages = get_flashed_messages(with_categories = true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert {{ category }}" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        
+        {{ form.email(class = 'form-control', placeholder = 'Enter Email')}}
+        {{ form.submit(class = 'btn btn-lg btn-primary btn-block mt-3') }}
+
+    </form>
+    
+    <footer style = 'position: fixed; bottom: 0;'>
+        <div class="inner">
+          <p>Made with <i class="fas fa-heart text-danger"></i> by Harry Lees</p>
+        </div>
+    </footer>
+</body>
 </html>

@@ -1,0 +1,8 @@
+discord.py==1.4.1
+flask
+flask_wtf
+psycopg2
+gunicorn
+Flask-Mail
+itsdangerous
+Flask-SQLAlchemy

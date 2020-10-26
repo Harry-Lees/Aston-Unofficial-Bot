@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  database:
+    restart: always
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=DiscordDatabase
+
+  flask_app:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Docker_flask
+    ports:
+      - "80:5000"
+    depends_on:
+      - database
+
+  aston_bot:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Docker_discord
+    depends_on:
+      - flask_app
+
+
+

@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+    <meta name='author' content='Harry Lees'>
 
     <title>Verify Email</title>
 
@@ -70,30 +69,14 @@
   </head>
 
   <body class="text-center">
-    <form class="form-signin" action = '' method = 'post'>
-        {{ form.csrf_token }}
-        <h1 class="h3 mb-3 font-weight-normal">Enter your Email!</h1>
-        <p class = 'text-muted'>Please enter a valid aston.ac.uk email address</p>
-
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories = true) %}
           {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-danger" role="alert">
+            {% for category, message in messages %}
+            <div class="alert {{ category }} w-50" role="alert">
                 {{ message }}
             </div>
             {% endfor %}
           {% endif %}
         {% endwith %}
-        
-        {{ form.email(class = 'form-control', placeholder = 'Enter Email')}}
-        {{ form.submit(class = 'btn btn-lg btn-primary btn-block mt-3') }}
-
-    </form>
-    
-    <footer style = 'position: fixed; bottom: 0;'>
-        <div class="inner">
-          <p>Made with <i class="fas fa-heart text-danger"></i> by Harry Lees</p>
-        </div>
-    </footer>
-</body>
+  </body>
 </html>
