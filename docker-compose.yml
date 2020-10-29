@@ -13,7 +13,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: Docker_flask
+      dockerfile: Dockerfile.flask
     ports:
       - "80:5000"
     depends_on:
@@ -23,7 +23,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: Docker_discord
+      dockerfile: Dockerfile.discord
     depends_on:
       - flask_app
 

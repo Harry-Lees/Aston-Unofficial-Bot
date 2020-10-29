@@ -73,7 +73,7 @@
     <form class="form-signin" action = '' method = 'post'>
         {{ form.csrf_token }}
         <h1 class="h3 mb-3 font-weight-normal">Enter your Email!</h1>
-        <p class = 'text-muted'>Please enter a valid aston.ac.uk email address</p>
+        <p class = 'text-muted'>You must have a valid aston.ac.uk email address to verify.</p>
 
         {% with messages = get_flashed_messages(with_categories = true) %}
           {% if messages %}

@@ -1,14 +1,9 @@
 from datetime import datetime
 
+import psycopg2
 from app.extensions import database
-
-from flask import (
-    Blueprint, flash, 
-    redirect, render_template, 
-    request, session, 
-    url_for, current_app
-)
-
+from flask import (Blueprint, current_app, flash, redirect, render_template,
+                   request, session, url_for)
 from itsdangerous import URLSafeTimedSerializer
 
 from .email import send_email
@@ -38,6 +33,13 @@ def confirm_email(token: str):
         database.session.add(user)
         database.session.commit()
 
+        # send a notify to the database which can be picked up by the Discord bot
+        database_uri = current_app.config.get('SQLALCHEMY_DATABASE_URI')
+        with psycopg2.connect(database_uri) as connection:
+            cursor = connection.cursor()
+            cursor.execute(f"NOTIFY user_tab, %(email)s", {'email' : email})
+            connection.commit()
+
         flash('You have been successfully verified! You can now continue to Discord. It may take several seconds for your roles to be assigned. If they have not been assigned within the next 5 minutes, please open a Ticket.', 'alert-success')
 
     return redirect(url_for('user.verification_result'))
@@ -48,6 +50,11 @@ def verify_user():
 
     if not (user_id := request.args.get('user_id', None)): # check if the user_id was provided
         flash('an error has occurred, if you clicked on the link from Discord, please contact a Discord admin, if you have just opened this page, please close your tab.', 'alert-danger')
+        return render_template('register.html', form = form)
+
+    user = User.query.filter_by(id = user_id).first()
+    if user:
+        flash('you are already verified on this server.', 'alert-warning')
         return render_template('register.html', form = form)
 
     if form.validate_on_submit():
@@ -64,7 +71,7 @@ def verify_user():
             # generate Email data
             token = generate_token(user.email)
             confirm_url = url_for('user.confirm_email', token = token, _external = True)
-            html = render_template('verify.html', confirm_url = confirm_url)
+            html = render_template('email.html', confirm_url = confirm_url)
             subject = 'Welcome to Aston Unofficial'
             
             send_email(current_app, user.email, subject, html)

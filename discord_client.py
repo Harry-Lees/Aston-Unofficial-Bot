@@ -23,7 +23,7 @@ welcome_message = '''
 Thanks for joining the **Aston Unofficial Discord Server**
 
 Please verify your email by clicking below:
-http://172.16.12.133:5000/verify_user?user_id={}
+http://localhost/user/register?user_id={}
 
 :warning: you will not be able to join the server without an aston.ac.uk email address :warning:
 
@@ -72,57 +72,65 @@ async def on_member_remove(member: object) -> None:
     Discord server.
     '''
 
-    with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI):
+    with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection:
         cursor = connection.cursor()
-        cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', user_id = member.id)
+        cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', {'user_id' : str(member.id)})
+        connection.commit()
 
-
-@bot.command(name = 'test')
+@bot.command(name = 'test', pass_context = True)
 async def test(ctx):
-    print('test working')
     await context.message.channel.send('working!')
 
 
-@bot.command(name = 'verify')
-async def verify(ctx, name: str, email: str):
+@bot.command(name = 'verify', pass_context = True)
+async def verify(ctx, user_id: str, email: str):
     await context.message.channel.send(f'{name} has been manually verified')
 
 
-@client.event
-async def on_message(message):
-    arguments = str()
+# @client.event
+# async def on_message(message):
+#     arguments = str()
 
-    if message.author == client.user:
-        return
-    else:
-        if message.content.startswith('!test'):
-            await message.channel.send('working!')
+#     if message.author == client.user:
+#         return
+#     else:
+#         if message.content.startswith('!test'):
+#             await message.channel.send('working!')
 
 
 async def give_role(user_id, guild):
-    member = get(guild.members, user_id)
-    role = get(guild.roles, DiscordConfig.STUDENT_ROLE)
+    member = get(guild.members, name = user_id)
+    role = get(guild.roles, name = DiscordConfig.STUDENT_ROLE)
 
     await member.add_roles(role, 'verified account')
 
 
 def database_notify():
+    '''
+    function to wait for NOTIFY commands sent to the database.
+    Once an update has occurred, check if the user has been verified. 
+    If they are verified, give them a suitable role.
+    '''
+
     with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection:
         cursor = connection.cursor()
+
         cursor.execute(f'LISTEN {User.__tablename__}')
+        connection.commit()
+
+        print(f'LISTENING TO {User.__tablename__}')
   
         while True:
             connection.poll()
             while connection.notifies:
                 notify = connection.notifies.pop(0)
-                print('GOT NOTIFY: ', notify.payload)
+                cursor.execute(f'SELECT id FROM {User.__tablename__} WHERE email = %(email)s', {'email' : notify.payload})
+                user_id = cursor.fetchone()[0]
 
-                guild = client.guilds[0] # only works if the bot is connected to a single server
-
-                client.run(give_role(notify.payload, guild))
+                guild = client.guilds[0] # only works if the bot is connected to a single server, may change later
+                asyncio.run(give_role(notify.payload, guild))
 
             sleep(1)
-
 
 if __name__ == '__main__':
     thread = Thread(target = database_notify)
