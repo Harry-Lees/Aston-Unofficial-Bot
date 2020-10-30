@@ -102,6 +102,16 @@ async def verify(ctx, username: str, email: str):
 async def ping(ctx):
     await ctx.send('pong')
 
+    
+@bot.command(name = 'unverify')
+async def unverify(ctx, username: str, email: str):
+    author = ctx.message.author
+    member = get(author.guild.members, name = username)
+    role = get(author.guild.roles, name = DiscordConfig.STUDENT_ROLE)
+    
+    await member.remove_role(role)
+    await ctx.send(f'{username} has had their verification revoked')
+
 
 async def give_role(user_id: str, guild: object):
     user_id = int(user_id) # user_id has to be an integer for get_member
