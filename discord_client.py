@@ -92,7 +92,7 @@ async def mass_dm(ctx, role: str, message: str):
 async def verify(ctx, username: str, email: str):
     author = ctx.message.author # get the object of the author of the message
     member = get(author.guild.members, name = username)
-    role = get(member.guild.roles, name = 'student')
+    role = get(member.guild.roles, name = DiscordConfig.STUDENT_ROLE)
 
     await member.add_roles(role)
     await ctx.send(f'{username} has been manually verified')
