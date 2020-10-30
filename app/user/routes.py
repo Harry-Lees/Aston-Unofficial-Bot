@@ -49,12 +49,12 @@ def verify_user():
     form = EmailVerification()
 
     if not (user_id := request.args.get('user_id', None)): # check if the user_id was provided
-        flash('an error has occurred, if you clicked on the link from Discord, please contact a Discord admin, if you have just opened this page, please close your tab.', 'alert-danger')
+        flash('An error has occurred, if you clicked on the link from Discord, please contact a Discord admin, if you have just opened this page, please close your tab.', 'alert-danger')
         return render_template('register.html', form = form)
 
     user = User.query.filter_by(id = user_id).first()
     if user:
-        flash('you are already verified on this server.', 'alert-warning')
+        flash('You are already verified on this server.', 'alert-warning')
         return render_template('register.html', form = form)
 
     if form.validate_on_submit():
@@ -75,9 +75,9 @@ def verify_user():
             subject = 'Welcome to Aston Unofficial'
             
             send_email(current_app, user.email, subject, html)
-            flash(f'an email has been sent to {user.email}, you may now close this page.', 'alert-success')
+            flash(f'An email has been sent to {user.email}, you may now close this page.', 'alert-success')
         else:
-            flash('please enter a valid aston.ac.uk email address', 'alert-warning')
+            flash('Please enter a valid aston.ac.uk email address', 'alert-warning')
 
     return render_template('register.html', form = form)
 

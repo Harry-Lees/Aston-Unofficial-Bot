@@ -15,7 +15,7 @@ services:
       context: .
       dockerfile: Dockerfile.flask
     ports:
-      - "80:5000"
+      - "10080:5000"
     depends_on:
       - database
 

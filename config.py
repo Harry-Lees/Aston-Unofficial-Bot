@@ -4,8 +4,8 @@ import os
 class DiscordConfig:
     DISCORD_TOKEN = 'NzY4MTI0NzI1MDk1NDMyMjAy.X4755Q.x3B9ht-yfgrvbwERYQU_j5CvY04'
     ADMIN_ROLE = '' # name of admin role
-    STUDENT_ROLE = '' # name of student role
-    LECTURER_ROLE = '' # name of lecturer
+    STUDENT_ROLE = 'student' # name of student role
+    LECTURER_ROLE = 'teacher' # name of lecturer
 
 
 class Config:

@@ -77,35 +77,42 @@ async def on_member_remove(member: object) -> None:
         cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', {'user_id' : str(member.id)})
         connection.commit()
 
-@bot.command(name = 'test', pass_context = True)
-async def test(ctx):
-    await context.message.channel.send('working!')
+
+# @bot.command(name = 'test', pass_context = True)
+# async def test(ctx):
+#     await context.message.channel.send('working!')
 
 
-@bot.command(name = 'verify', pass_context = True)
-async def verify(ctx, user_id: str, email: str):
-    await context.message.channel.send(f'{name} has been manually verified')
+# @bot.command(name = 'verify', pass_context = True)
+# async def verify(ctx, user_id: str, email: str):
+#     await context.message.channel.send(f'{name} has been manually verified')
 
 
-# @client.event
-# async def on_message(message):
-#     arguments = str()
+@client.event
+async def on_message(message):
+    arguments = str()
 
-#     if message.author == client.user:
-#         return
-#     else:
-#         if message.content.startswith('!test'):
-#             await message.channel.send('working!')
+    if message.author == client.user:
+        return
+    else:
+        if message.content.startswith('!test'):
+            await message.channel.send('working!')
 
 
-async def give_role(user_id, guild):
-    member = get(guild.members, name = user_id)
+async def give_role(user_id: str, guild: object):
+    user_id = int(user_id.strip()) # user_id has to be an integer for get_member
+
+    print('user_id ', user_id)
+    member = guild.get_member(user_id)
+    print('member ', member)
+
     role = get(guild.roles, name = DiscordConfig.STUDENT_ROLE)
+    print('role ', role)
 
     await member.add_roles(role, 'verified account')
 
 
-def database_notify():
+def database_notify() -> None:
     '''
     function to wait for NOTIFY commands sent to the database.
     Once an update has occurred, check if the user has been verified. 
@@ -128,7 +135,7 @@ def database_notify():
                 user_id = cursor.fetchone()[0]
 
                 guild = client.guilds[0] # only works if the bot is connected to a single server, may change later
-                asyncio.run(give_role(notify.payload, guild))
+                asyncio.run_coroutine_threadsafe(give_role(user_id, guild), client.loop)
 
             sleep(1)
 
