@@ -82,6 +82,10 @@ def verify_user():
     return render_template('register.html', form = form)
 
 
+def send_email():
+    pass
+
+
 def generate_token(email):
     serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
     return serializer.dumps(email, salt = current_app.config['SECURITY_PASSWORD_SALT'])

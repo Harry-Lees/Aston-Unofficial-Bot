@@ -14,9 +14,8 @@ from app.user.models import User
 from config import Config, DiscordConfig
 
 # setup Discord connection
-client = discord.Client()
-channel = client.get_channel('channel id')
 bot = commands.Bot(command_prefix = '!')
+channel = bot.get_channel('channel id')
 
 
 welcome_message = '''
@@ -44,19 +43,19 @@ To do this, please go into the #roles channel and react to the Optional message 
 '''
 
 
-@client.event
+@bot.event
 async def on_ready() -> None:
     '''
     builtin Discord.py function which runs on startup.
     '''
 
     print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
+    print(bot.user.name)
+    print(bot.user.id)
     print('------')
 
 
-@client.event
+@bot.event
 async def on_member_join(member: object) -> None:
     '''
     builtin Discord.py function called whenever a user joins the
@@ -65,7 +64,7 @@ async def on_member_join(member: object) -> None:
     await member.send(welcome_message.format(member.id))
 
 
-@client.event
+@bot.event
 async def on_member_remove(member: object) -> None:
     '''
     builtin Discord.py function called whenever a user leaves the
@@ -77,42 +76,43 @@ async def on_member_remove(member: object) -> None:
         cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', {'user_id' : str(member.id)})
         connection.commit()
 
+# Fix these methods later
+@bot.command(name = 'mass_dm')
+async def mass_dm(ctx, role: str, message: str):
+    member = ctx.message.author
+    role = get(member.guild.roles, name = role)
 
-# @bot.command(name = 'test', pass_context = True)
-# async def test(ctx):
-#     await context.message.channel.send('working!')
+    for member in role.members:
+        await member.send(message)
+
+    await ctx.send(f'sending mass DM to users: ' + ', '.join(m.name for m in role.members))
 
 
-# @bot.command(name = 'verify', pass_context = True)
-# async def verify(ctx, user_id: str, email: str):
-#     await context.message.channel.send(f'{name} has been manually verified')
+@bot.command(name = 'verify')
+async def verify(ctx, username: str, email: str):
+    author = ctx.message.author # get the object of the author of the message
+    member = get(author.guild.members, name = username)
+    role = get(member.guild.roles, name = 'student')
+
+    await member.add_roles(role)
+    await ctx.send(f'{username} has been manually verified')
 
 
-@client.event
-async def on_message(message):
-    arguments = str()
-
-    if message.author == client.user:
-        return
-    else:
-        if message.content.startswith('!test'):
-            await message.channel.send('working!')
+@bot.command(name = 'ping')
+async def ping(ctx):
+    await ctx.send('pong')
 
 
 async def give_role(user_id: str, guild: object):
-    user_id = int(user_id.strip()) # user_id has to be an integer for get_member
-
-    print('user_id ', user_id)
+    user_id = int(user_id) # user_id has to be an integer for get_member
     member = guild.get_member(user_id)
-    print('member ', member)
-
     role = get(guild.roles, name = DiscordConfig.STUDENT_ROLE)
-    print('role ', role)
+
 
     await member.add_roles(role, 'verified account')
 
 
-def database_notify() -> None:
+def database_notify() -> None: # I think there's a better way of doing this. Please find it :D
     '''
     function to wait for NOTIFY commands sent to the database.
     Once an update has occurred, check if the user has been verified. 
@@ -134,8 +134,8 @@ def database_notify() -> None:
                 cursor.execute(f'SELECT id FROM {User.__tablename__} WHERE email = %(email)s', {'email' : notify.payload})
                 user_id = cursor.fetchone()[0]
 
-                guild = client.guilds[0] # only works if the bot is connected to a single server, may change later
-                asyncio.run_coroutine_threadsafe(give_role(user_id, guild), client.loop)
+                guild = bot.guilds[0] # only works if the bot is connected to a single server, may change later
+                asyncio.run_coroutine_threadsafe(give_role(user_id, guild), bot.loop)
 
             sleep(1)
 
@@ -144,4 +144,4 @@ if __name__ == '__main__':
     thread.daemon = True
     thread.start()
 
-    client.run(DiscordConfig.DISCORD_TOKEN)
+    bot.run(DiscordConfig.DISCORD_TOKEN)
