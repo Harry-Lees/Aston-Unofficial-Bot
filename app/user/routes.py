@@ -40,6 +40,7 @@ def confirm_email(token: str):
             cursor.execute(f"NOTIFY user_tab, %(email)s", {'email' : email})
             connection.commit()
 
+        print('NOTIFY sent')
         flash('You have been successfully verified! You can now continue to Discord. It may take several seconds for your roles to be assigned. If they have not been assigned within the next 5 minutes, please open a Ticket.', 'alert-success')
 
     return redirect(url_for('user.verification_result'))

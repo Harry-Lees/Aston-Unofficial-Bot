@@ -106,12 +106,12 @@ async def commands(ctx):
         
         
 @bot.command(name = 'mass_dm')
-async def mass_dm(ctx, role: str, message: str):
+async def mass_dm(ctx, role: str, *message: list):
     member = ctx.message.author
     role = get(member.guild.roles, name = role)
 
     for member in role.members:
-        await member.send(message)
+        await member.send(' '.join(message))
 
     await ctx.send(f'sending mass DM to users: ' + ', '.join(m.name for m in role.members))
 
@@ -184,6 +184,7 @@ def database_notify() -> None: # I think there's a better way of doing this. Ple
             connection.poll()
             while connection.notifies:
                 notify = connection.notifies.pop(0)
+                print('received NOTIFY')
                 cursor.execute(f'SELECT id FROM {User.__tablename__} WHERE email = %(email)s', {'email' : notify.payload})
                 user_id = cursor.fetchone()[0]
 
