@@ -5,6 +5,7 @@ from app.extensions import database
 from flask import (Blueprint, current_app, flash, redirect, render_template,
                    request, session, url_for)
 from itsdangerous import URLSafeTimedSerializer
+from itsdangerous.exc import BadSignature, SignatureExpired
 
 from .email import send_email
 from .forms import EmailVerification
@@ -24,6 +25,7 @@ def confirm_email(token: str):
         user = User.query.filter_by(email = email).first_or_404()
     else:
         flash('The confirmation link is invalid or has expired', 'alert-danger')
+        return redirect(url_for('user.verification_result'))
 
     if user.verified:
         flash('You have already been verified on this server', 'alert-warning')
@@ -90,13 +92,18 @@ def generate_token(email):
 
 def confirm_token(token, expiration: int = 3600):
     serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+
     try:
         email = serializer.loads(
             token,
             salt = current_app.config['SECURITY_PASSWORD_SALT'],
             max_age = expiration
         )
-    except:
+    except BadSignature:
+        print('something went wrong')
+        return False
+    except SignatureExpired:
+        print('The confirmation link is invalid or has expired')
         return False
 
     return email
