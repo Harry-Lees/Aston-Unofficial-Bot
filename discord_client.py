@@ -76,7 +76,32 @@ async def on_member_remove(member: object) -> None:
         cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', {'user_id' : str(member.id)})
         connection.commit()
 
-# Fix these methods later
+
+@bot.command(name = 'commands')
+async def commands(ctx):
+    commands = '''
+    ```
+    !mass_dm <role> <message>
+    
+        - Send a DM to every member with a given role.
+    
+    !verify <username> <email>
+    
+        - Manually verify a user.
+    
+    !unverify <username> <email>
+    
+        - Manually unverify a user, this will remove their role and remove their entry in the database.
+    
+    !ping
+    
+        - Pong. Test if the server is up.
+    ```
+    '''
+    
+    await ctx.send(
+        
+        
 @bot.command(name = 'mass_dm')
 async def mass_dm(ctx, role: str, message: str):
     member = ctx.message.author
@@ -92,7 +117,7 @@ async def mass_dm(ctx, role: str, message: str):
 async def verify(ctx, username: str, email: str):
     author = ctx.message.author # get the object of the author of the message
     member = get(author.guild.members, name = username)
-    role = get(member.guild.roles, name = 'student')
+    role = get(member.guild.roles, name = DiscordConfig.STUDENT_ROLE)
 
     await member.add_roles(role)
     await ctx.send(f'{username} has been manually verified')
@@ -101,6 +126,16 @@ async def verify(ctx, username: str, email: str):
 @bot.command(name = 'ping')
 async def ping(ctx):
     await ctx.send('pong')
+
+    
+@bot.command(name = 'unverify')
+async def unverify(ctx, username: str, email: str):
+    author = ctx.message.author
+    member = get(author.guild.members, name = username)
+    role = get(author.guild.roles, name = DiscordConfig.STUDENT_ROLE)
+    
+    await member.remove_role(role)
+    await ctx.send(f'{username} has had their verification revoked')
 
 
 async def give_role(user_id: str, guild: object):
