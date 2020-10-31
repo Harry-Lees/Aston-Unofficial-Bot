@@ -99,7 +99,7 @@ async def commands(ctx):
     ```
     '''
     
-    await ctx.send(
+    await ctx.send(commands)
         
         
 @bot.command(name = 'mass_dm')
