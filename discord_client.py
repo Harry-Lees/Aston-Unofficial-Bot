@@ -11,6 +11,8 @@ import psycopg2 # used over SQLAlchemy for listen/ notify functionality
 import psycopg2.extensions
 
 from app.user.models import User
+from app.extensions import database
+
 from config import Config, DiscordConfig
 
 # setup Discord connection
@@ -81,21 +83,22 @@ async def on_member_remove(member: object) -> None:
 async def commands(ctx):
     commands = '''
     ```
-    !mass_dm <role> <message>
-    
-        - Send a DM to every member with a given role.
-    
-    !verify <username> <email>
-    
-        - Manually verify a user.
-    
-    !unverify <username> <email>
-    
-        - Manually unverify a user, this will remove their role and remove their entry in the database.
-    
-    !ping
-    
-        - Pong. Test if the server is up.
+!mass_dm <role> <message>
+
+    - Send a DM to every member with a given role.
+
+!verify <username> <email>
+
+    - Manually verify a user. This only works if the user has no record in the database. 
+    Please use the unverify command first if the user has already begun the verification process.
+
+!unverify <username>
+
+    - Manually unverify a user, this will remove their role and remove their entry in the database.
+
+!ping
+
+    - Pong. Test if the server is up.
     ```
     '''
     
@@ -119,6 +122,16 @@ async def verify(ctx, username: str, email: str):
     member = get(author.guild.members, name = username)
     role = get(member.guild.roles, name = DiscordConfig.STUDENT_ROLE)
 
+    with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection: # Could convert this to SQLAlchemy
+        cursor = connection.cursor()
+
+        arguments = {
+            'user_id'   : str(member.id),
+            'email'     : email
+        }
+        
+        cursor.execute(f'INSERT INTO {User.__tablename__} VALUES(%(user_id)s, %(email)s, true)', arguments)
+
     await member.add_roles(role)
     await ctx.send(f'{username} has been manually verified')
 
@@ -129,12 +142,17 @@ async def ping(ctx):
 
     
 @bot.command(name = 'unverify')
-async def unverify(ctx, username: str, email: str):
+async def unverify(ctx, username: str):
     author = ctx.message.author
     member = get(author.guild.members, name = username)
     role = get(author.guild.roles, name = DiscordConfig.STUDENT_ROLE)
     
-    await member.remove_role(role)
+    with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection: # will only delete if record exists
+        cursor = connection.cursor()
+        cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', {'user_id' : str(member.id)})
+        connection.commit()
+
+    await member.remove_roles(role)
     await ctx.send(f'{username} has had their verification revoked')
 
 
