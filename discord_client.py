@@ -106,12 +106,13 @@ async def commands(ctx):
         
         
 @bot.command(name = 'mass_dm')
-async def mass_dm(ctx, role: str, *message: list):
+async def mass_dm(ctx, role: str, *message: str):
     member = ctx.message.author
     role = get(member.guild.roles, name = role)
 
+    joined_message = ' '.join(message)
     for member in role.members:
-        await member.send(' '.join(message))
+        await member.send(joined_message)
 
     await ctx.send(f'sending mass DM to users: ' + ', '.join(m.name for m in role.members))
 
