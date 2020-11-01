@@ -9,7 +9,7 @@ from .extensions import database, mail
 
 def create_app() -> object:
     app = Flask(__name__)
-    app.config.from_object('config.DevelopmentConfig')
+    app.config.from_object('config.HerokuConfig')
 
     from .core.routes import blueprint as core_bp
     from .user.routes import blueprint as user_bp
