@@ -2,7 +2,7 @@ import os
 
 
 class DiscordConfig:
-    DISCORD_TOKEN = 'NzY4MTI0NzI1MDk1NDMyMjAy.X4755Q.x3B9ht-yfgrvbwERYQU_j5CvY04'
+    DISCORD_TOKEN = '${{ secrets.DISCORD_TOKEN }}'
     ADMIN_ROLE = '' # name of admin role
     STUDENT_ROLE = 'Student' # name of student role
     LECTURER_ROLE = 'teacher' # name of lecturer
@@ -11,8 +11,8 @@ class DiscordConfig:
 class Config:
     DEBUG = False
     TESTING = False
-    SECRET_KEY = 'something very secret here'
-    SECURITY_PASSWORD_SALT = 'secret salt'
+    SECRET_KEY = '${{ secrets.SECRET_KEY }}'
+    SECURITY_PASSWORD_SALT = '${{ secrets.SECURITY_PASSWORD_SALT }}'
 
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 465
@@ -20,7 +20,7 @@ class Config:
     MAIL_USE_SSL = True
 
     MAIL_USERNAME = 'astonunofficial@gmail.com'
-    MAIL_PASSWORD = 'jox6DWAY@sqoc5hall'
+    MAIL_PASSWORD = '${{ secrets.MAIL_PASSWORD }}'
 
     MAIL_DEFAULT_SENDER = 'astonunofficial@gmail.com'
 
