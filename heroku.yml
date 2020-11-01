@@ -1,0 +1,9 @@
+setup:
+    addons:
+        - plan: heroku-postgres
+        as: DATABASE
+
+build:
+    docker:
+        flask: Dockerfile.flask
+        discord: Dockerfile.discord
