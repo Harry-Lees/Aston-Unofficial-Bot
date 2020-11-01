@@ -7,3 +7,4 @@ Flask-Mail
 itsdangerous
 Flask-SQLAlchemy
 sphinx
+guzzle_sphinx_theme
