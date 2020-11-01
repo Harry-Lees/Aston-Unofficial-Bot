@@ -128,4 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-secrets.env
+# Environment variables
+.env
