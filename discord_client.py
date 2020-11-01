@@ -137,13 +137,21 @@ async def verify(ctx, username: str, email: str):
     await ctx.send(f'{username} has been manually verified')
 
 
+@verify.error
+async def verify_error(ctx: object, error: Exception) -> None:
+    if isinstance(error, BadArgument):
+        await ctx.send('Could not verify this memeber, please check spelling and try again')
+    else:
+        await ctx.send(f'an unexpected error occurred {error}')
+
+
 @bot.command(name = 'ping')
 async def ping(ctx):
     await ctx.send('pong')
 
-    
+
 @bot.command(name = 'unverify')
-async def unverify(ctx, username: str):
+async def unverify(ctx: object, username: str):
     author = ctx.message.author
     member = get(author.guild.members, name = username)
     role = get(author.guild.roles, name = DiscordConfig.STUDENT_ROLE)
@@ -157,12 +165,20 @@ async def unverify(ctx, username: str):
     await ctx.send(f'{username} has had their verification revoked')
 
 
+@unverify.error
+async def unverify_error(ctx: object, error: Exception) -> None:
+    if isinstance(error, BadArgument):
+        await ctx.send('Could not unverify this member, please check spelling and try again')
+    else:
+        await ctx.send(f'an unexpected error occurred {error}')
+
+
 async def give_role(user_id: str, guild: object):
     user_id = int(user_id) # user_id has to be an integer for get_member
     member = guild.get_member(user_id)
     role = get(guild.roles, name = DiscordConfig.STUDENT_ROLE)
 
-
+    print(f'verified account {member.nick}')
     await member.add_roles(role, 'verified account')
 
 
