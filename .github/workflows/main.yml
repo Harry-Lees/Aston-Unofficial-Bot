@@ -1,2 +1,0 @@
-- name: Secret Parser
-  uses: jwsi/secret-parser@v1
