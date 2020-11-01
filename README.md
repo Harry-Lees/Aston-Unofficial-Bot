@@ -2,6 +2,8 @@
 
 ![Aston Unofficial Banner](https://github.com/Harry-Lees/Aston-Unofficial-Bot/blob/main/.github/banner.png)
 
+[![Docs](https://readthedocs.org/projects/astonunofficialdocs/badge/?version=latest)](https://astonunofficialdocs.readthedocs.io/en/latest/?badge=latest)
+
 ## Table of Contents
 
 * [About the Project](#about-the-project)
