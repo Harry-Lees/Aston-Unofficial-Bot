@@ -6,3 +6,4 @@ gunicorn
 Flask-Mail
 itsdangerous
 Flask-SQLAlchemy
+sphinx
