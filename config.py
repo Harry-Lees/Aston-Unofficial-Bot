@@ -5,7 +5,7 @@ class DiscordConfig:
     DISCORD_TOKEN = '${{ secrets.DISCORD_TOKEN }}'
     ADMIN_ROLE = '' # name of admin role
     STUDENT_ROLE = 'Student' # name of student role
-    LECTURER_ROLE = 'teacher' # name of lecturer
+    LECTURER_ROLE = 'teacher' # name of lecturer role
 
 
 class Config:
