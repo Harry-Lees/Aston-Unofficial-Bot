@@ -1,8 +1,8 @@
-import os
+from os import getenv
 
 
 class DiscordConfig:
-    DISCORD_TOKEN = '${{ secrets.DISCORD_TOKEN }}'
+    DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
     ADMIN_ROLE = '' # name of admin role
     STUDENT_ROLE = 'Student' # name of student role
     LECTURER_ROLE = 'teacher' # name of lecturer role
@@ -11,18 +11,18 @@ class DiscordConfig:
 class Config:
     DEBUG = False
     TESTING = False
-    SECRET_KEY = '${{ secrets.SECRET_KEY }}'
-    SECURITY_PASSWORD_SALT = '${{ secrets.SECURITY_PASSWORD_SALT }}'
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECURITY_PASSWORD_SALT = os.getenv('SECURITY_PASSWORD_SALT')
 
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
 
-    MAIL_USERNAME = 'astonunofficial@gmail.com'
-    MAIL_PASSWORD = '${{ secrets.MAIL_PASSWORD }}'
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
 
-    MAIL_DEFAULT_SENDER = 'astonunofficial@gmail.com'
+    MAIL_DEFAULT_SENDER = os.getenv('MAIL_USERNAME')
 
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@database/DiscordDatabase'
     SQLALCHEMY_ECHO = False
