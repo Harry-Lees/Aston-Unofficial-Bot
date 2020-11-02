@@ -170,7 +170,7 @@ async def unverify_error(ctx: object, error: Exception) -> None:
     if isinstance(error, BadArgument):
         await ctx.send('Could not unverify this member, please check spelling and try again')
     else:
-        await ctx.send(f'an unexpected error occurred {error}')
+        await ctx.send(f'An unexpected error occurred {error}')
 
 
 async def give_role(user_id: str, guild: object):
@@ -178,7 +178,7 @@ async def give_role(user_id: str, guild: object):
     member = guild.get_member(user_id)
     role = get(guild.roles, name = DiscordConfig.STUDENT_ROLE)
 
-    print(f'verified account {member.nick}')
+    print(f'verified account {member.name}')
     await member.add_roles(role, 'verified account')
 
 
@@ -189,26 +189,35 @@ def database_notify() -> None: # I think there's a better way of doing this. Ple
     If they are verified, give them a suitable role.
     '''
 
-    with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection:
-        cursor = connection.cursor()
+    while True:
+        try:
+            with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection:
+                cursor = connection.cursor()
 
-        cursor.execute(f'LISTEN {User.__tablename__}')
-        connection.commit()
+                cursor.execute(f'LISTEN {User.__tablename__}')
+                connection.commit()
 
-        print(f'LISTENING TO {User.__tablename__}')
-  
-        while True:
-            connection.poll()
-            while connection.notifies:
-                notify = connection.notifies.pop(0)
-                print('received NOTIFY')
-                cursor.execute(f'SELECT id FROM {User.__tablename__} WHERE email = %(email)s', {'email' : notify.payload})
-                user_id = cursor.fetchone()[0]
+                print(f'LISTENING TO {User.__tablename__}')
+        
+                while True:
+                    connection.poll()
+                    while connection.notifies:
+                        notify = connection.notifies.pop(0)
+                        print('received NOTIFY')
+                        cursor.execute(f'SELECT id FROM {User.__tablename__} WHERE email = %(email)s', {'email' : notify.payload})
+                        connection.commit()
 
-                guild = bot.guilds[0] # only works if the bot is connected to a single server, may change later
-                asyncio.run_coroutine_threadsafe(give_role(user_id, guild), bot.loop)
+                        try:
+                            user_id = cursor.fetchone()[0]
+                        except TypeError as error:
+                            print(f'{error}. Is the given user in the database?')
 
-            sleep(1)
+                        guild = bot.guilds[0] # only works if the bot is connected to a single server, may change later
+                        asyncio.run_coroutine_threadsafe(give_role(user_id, guild), bot.loop)
+
+                    sleep(1)
+        except psycopg2.OperationalError:
+            print('error connecting to database')
 
 if __name__ == '__main__':
     thread = Thread(target = database_notify)

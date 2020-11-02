@@ -9,7 +9,7 @@ from .extensions import database, mail
 
 def create_app() -> object:
     app = Flask(__name__)
-    app.config.from_object('config.HerokuConfig')
+    app.config.from_object('config.DevelopmentConfig')
 
     from .core.routes import blueprint as core_bp
     from .user.routes import blueprint as user_bp
@@ -24,15 +24,17 @@ def create_app() -> object:
 
 def register_extensions(app: object) -> None:
     mail.init_app(app)
-    database.init_app(app)
 
-    from .user.models import User
+    if not app.config['DEBUG']:
+        database.init_app(app)
+
+        from .user.models import User
 
 
-    with app.app_context():
-        engine = database.get_engine()
-        table_exists = engine.dialect.has_table(engine, User.__tablename__)
+        with app.app_context():
+            engine = database.get_engine()
+            table_exists = engine.dialect.has_table(engine, User.__tablename__)
 
-        if not table_exists:
-            database.create_all()
-            database.session.commit()
+            if not table_exists:
+                database.create_all()
+                database.session.commit()
