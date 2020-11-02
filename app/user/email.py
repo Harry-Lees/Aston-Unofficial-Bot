@@ -11,3 +11,5 @@ def send_email(app, to, subject, template):
     )
 
     mail.send(msg)
+    print(f'{app.config["MAIL_DEFAULT_SENDER"]}, {app.config["MAIL_PASSWORD"]}')
+    print(f'sent email to {to}')

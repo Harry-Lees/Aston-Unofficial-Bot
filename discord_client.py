@@ -5,6 +5,7 @@ import asyncio
 
 import discord
 from discord.ext import commands
+from discord.ext.commands import BadArgument
 from discord.utils import get
 
 import psycopg2 # used over SQLAlchemy for listen/ notify functionality
@@ -142,7 +143,7 @@ async def verify_error(ctx: object, error: Exception) -> None:
     if isinstance(error, BadArgument):
         await ctx.send('Could not verify this memeber, please check spelling and try again')
     else:
-        await ctx.send(f'an unexpected error occurred {error}')
+        await ctx.send(f'an unexpected error occurred: {error}')
 
 
 @bot.command(name = 'ping')
@@ -170,7 +171,7 @@ async def unverify_error(ctx: object, error: Exception) -> None:
     if isinstance(error, BadArgument):
         await ctx.send('Could not unverify this member, please check spelling and try again')
     else:
-        await ctx.send(f'An unexpected error occurred {error}')
+        await ctx.send(f'An unexpected error occurred: {error}')
 
 
 async def give_role(user_id: str, guild: object):

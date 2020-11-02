@@ -56,8 +56,12 @@ def verify_user():
         return render_template('register.html', form = form)
 
     user = User.query.filter_by(id = user_id).first()
+
     if user:
-        flash('You are already verified on this server.', 'alert-warning')
+        if user.verified:
+            flash('You are already verified on this server.', 'alert-warning')
+            return render_template('register.html', form = form)
+        flash('You have already started the verification process. If you have not received an email, please click the link below', 'alert-warning')
         return render_template('register.html', form = form)
 
     if form.validate_on_submit():
