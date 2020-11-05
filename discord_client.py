@@ -11,7 +11,7 @@ from discord.utils import get
 import psycopg2 # used over SQLAlchemy for listen/ notify functionality
 import psycopg2.extensions
 
-from app.user.models import User
+from app.discord_verification.models import User
 from app.extensions import database
 
 from config import Config, DiscordConfig

@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
 
-    <title>Blog Template for Bootstrap</title>
+    <title>Aston Unofficial</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/blog/">
 
@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css" integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">    
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+
     <style>
         /* stylelint-disable selector-list-comma-newline-after */
 
@@ -112,8 +114,8 @@
             box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
         }
 
-        /*
-    * Blog name and description
+    /*
+        * Blog name and description
     */
         .blog-title {
             margin-bottom: 0;
@@ -142,8 +144,8 @@
         }
 
         /*
-    * Blog posts
-    */
+            * Blog posts
+        */
         .blog-post {
             margin-bottom: 4rem;
         }
@@ -159,19 +161,13 @@
         }
 
         /*
-    * Footer
-    */
-        .blog-footer {
-            padding: 2.5rem 0;
-            color: #999;
-            text-align: center;
-            background-color: #f9f9f9;
-            border-top: .05rem solid #e5e5e5;
-        }
-
-        .blog-footer p:last-child {
-            margin-bottom: 0;
-        }
+            * Footer
+        */
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }     
 
         .jumbotron {
             background-image: url("{{ url_for('static', filename = 'images/aston.jpg') }}");
@@ -200,19 +196,20 @@
                             <line x1="21" y1="21" x2="15.8" y2="15.8"></line>
                         </svg>
                     </a>
-                    <a class="btn btn-sm btn-outline-secondary" href="#">Sign in</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="/login">Sign in</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="/register">Register</a>
                 </div>
             </div>
         </header>
 
-        <div class="nav-scroller py-1 mb-2">
+        <div class="nav-scroller py-1 mb-3">
             <nav class="nav d-flex justify-content-between">
-                <a class="p-2 text-muted" href="#">Computer Science</a>
-                <a class="p-2 text-muted" href="#">Chemistry</a>
-                <a class="p-2 text-muted" href="#">Biology</a>
-                <a class="p-2 text-muted" href="#">Physics</a>
-                <a class="p-2 text-muted" href="#">Business</a>
-                <a class="p-2 text-muted" href="#">Engineering</a>
+                <a class="p-2 text-muted" href="/computer_science">Computer Science</a>
+                <a class="p-2 text-muted" href="/chemistry">Chemistry</a>
+                <a class="p-2 text-muted" href="/biology">Biology</a>
+                <a class="p-2 text-muted" href="/physics">Physics</a>
+                <a class="p-2 text-muted" href="/business">Business</a>
+                <a class="p-2 text-muted" href="/engineering">Engineering</a>
             </nav>
         </div>
 
@@ -221,6 +218,9 @@
                 <h1 class="display-4 font-italic text-shadow">Welcome to Aston Unofficial</h1>
             </div>
         </div>
+
+        <h3 class = 'pb-3 border-bottom font-italic'>Popular</h3>
+        <hr>
 
         <div class="row mb-2">
             <div class="col-md-6">
@@ -266,75 +266,29 @@
                     Announcements
                 </h3>
 
-                <div class="blog-post container bg-dark pt-3 pb-3 rounded text-light">
-                    <h2 class="blog-post-title">The suggestions system is now working!</h2>
-                    <p class="blog-post-meta">22-10-2020 by <a href="#">Jan</a></p>
-
+                {% if not announcements %}
                     <p>
-                        <h2>Use!</h2>
-                        If you have any ideas for new channels/competitions/events/giveaways or anything new to the server, 
-                        feel free to post them in #suggestion-discussion!                    
+                        There are no announcements to display.
                     </p>
-                    <hr>
-                    <h2>How does it work?</h2>
-                    <ol>
-                        <li>User types suggestion in #suggestion-discussion</li>
-                        <li>A straw-poll for the suggestion is created in #suggestions</li>
-                        <li>Only approved and implemented suggestions are displayed in #implemented-suggestions</li>
-                    </ol>
-                    <hr>
-                    <h2>What's the command?</h2>
-                    <p>The command to create a sugestion is <pre>¬suggest &lt;suggestion&gt;</pre></p>
-                    <hr>
-                    <h2>Where to write the command?</h2>
-                    <p>
-                        The command can only be typed in the #suggestion-discussion where you can discuss with other people and the Helpers.
-                    </p>
-                </div>
+                {% endif %}
 
-                <div class="blog-post container bg-dark pt-3 pb-3 rounded text-light">
-                    <h2 class="blog-post-title">Another blog post</h2>
-                    <p class="blog-post-meta">December 23, 2013 by <a href="#">Jacob</a></p>
+                {% for announcement in announcements %}
+                    <div class="blog-post container bg-dark pt-3 pb-3 rounded text-light">
+                        <h2 class="blog-post-title">{{ announcement.title }}</h2>
+                        <p class="blog-post-meta">{{ announcement.created_on }} by <a href="#">{{ announcement.author }}</a></p>
 
-                    <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus
-                        mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere
-                        consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-                    <blockquote>
-                        <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong>
-                            ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                    </blockquote>
-                    <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet
-                        fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                    <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non
-                        commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus,
-                        porta ac consectetur ac, vestibulum at eros.</p>
-                </div><!-- /.blog-post -->
+                        {{ announcement.content }}
+                    </div>
+                {% endfor %}
 
-                <div class="blog-post">
-                    <h2 class="blog-post-title">New feature</h2>
-                    <p class="blog-post-meta">December 14, 2013 by <a href="#">Chris</a></p>
-
-                    <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean
-                        lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce
-                        dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit
-                        amet risus.</p>
-                    <ul>
-                        <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-                        <li>Donec id elit non mi porta gravida at eget metus.</li>
-                        <li>Nulla vitae elit libero, a pharetra augue.</li>
-                    </ul>
-                    <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet
-                        fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-                    <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.
-                    </p>
-                </div><!-- /.blog-post -->
-
-                <nav class="blog-pagination">
-                    <a class="btn btn-outline-primary" href="#">Older</a>
-                    <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
-                </nav>
-
-            </div><!-- /.blog-main -->
+                {% if announcements %}
+                    <nav class="blog-pagination">
+                        <a class="btn btn-outline-primary" href="#">Older</a>
+                        <a class="btn btn-outline-secondary disabled" href="#">Newer</a>
+                    </nav>
+                {% endif %}
+                
+            </div>
 
             <aside class="col-md-4 blog-sidebar text-light">
                 <div class="p-3 mb-3 bg-dark rounded">
@@ -343,31 +297,34 @@
                         The Aston Unofficial community aims to provide a free place for students to come together and get to know each other.
                         <br>
                         <br>
-                        We have no club fees, no pressure to attend, just a community of Aston University students.
+                        <ul>
+                            <li>No club fees!</li>
+                            <li>No pressure to attend!</li>
+                            <li>All subjects welcome!</li>
+                        </ul>
                     </p>
                 </div>
 
                 <div class="p-3">
                     <h4 class="font-italic">Links</h4>
                     <ol class="list-unstyled">
-                        <li><a href="#">Discord</a></li>
+                        <li><a href="https://discord.gg/aston">Discord</a></li>
+                        <li><a href="https://github.com/Harry-Lees/Aston-Unofficial-Bot">Github</a></li>
                         <li><a href="#">Aston MAP</a></li>
                         <li><a href="#">Whatsapp</a></li>
                     </ol>
                 </div>
-            </aside><!-- /.blog-sidebar -->
+            </aside>
 
-        </div><!-- /.row -->
+        </div>
 
-    </main><!-- /.container -->
+    </main>
 
-    <footer class="blog-footer">
-        <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
-                href="https://twitter.com/mdo">@mdo</a>.</p>
-        <p>
-            <a href="#">Back to top</a>
-        </p>
-    </footer>
+    <footer class="footer text-center text-muted">
+        <div class="inner">
+          <p>Made with <i class="fas fa-heart text-danger"></i> by Harry Lees</p>
+        </div>
+      </footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

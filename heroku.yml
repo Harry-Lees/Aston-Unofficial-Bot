@@ -7,3 +7,5 @@ build:
     docker:
         flask: Dockerfile.flask
         discord: Dockerfile.discord
+
+    

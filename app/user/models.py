@@ -1,23 +1,37 @@
-from app.extensions import database
+from app.extensions import database, login_manager
+from flask_login import UserMixin
 
-class User(database.Model):
-    __tablename__ = 'user_tab'
+class User(database.Model, UserMixin):
+    __tablename__ = 'website_user_tab'
 
-    id = database.Column(
-        database.String(), # string not an int to ensure leading 0s are not stripped accidentally
-        primary_key = True
-    )
 
     email = database.Column( # aston.ac.uk Email address
         database.String(),
-        index = True,
-        unique = True,
-        nullable = False,
+        primary_key = True,
     )
 
-    verified = database.Column( # Whether the user has been verified or not
+
+    username = database.Column(
+        database.String(),
+        nullable = False,
+        unique = True,
+    )
+
+
+    password = database.Column(
+        database.String(),
+        nullable = False
+    )
+
+
+    verified = database.Column(
         database.Boolean,
         index = False,
         unique = False,
         nullable = False
     )
+
+
+@login_manager.user_loader
+def load_user(id: int) -> User:
+    return User.query.get(int(id))

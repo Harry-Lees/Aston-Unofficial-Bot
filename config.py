@@ -24,12 +24,14 @@ class Config:
 
     MAIL_DEFAULT_SENDER = getenv('MAIL_USERNAME')
 
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@database/DiscordDatabase'
+    SQLALCHEMY_DATABASE_URI = getenv('DATABASE_URL')
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MAIL_DEBUG = True
     MAIL_SUPPRESS_SEND = False
+
+    CSRF_ENABLED = True
 
 class HerokuConfig(Config):
     SQLALCHEMY_DATABASE_URI = ''
