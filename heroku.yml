@@ -3,4 +3,7 @@ build:
         flask: Dockerfile.flask
         discord: Dockerfile.discord
 
+    run:
+        flask: gunicorn -w 4 --bind 0.0.0.0:5000 wsgi:create_app()
+        discord: python3 -u discord_client.py
     
