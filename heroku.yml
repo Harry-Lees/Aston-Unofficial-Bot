@@ -4,4 +4,4 @@ build:
         discord: Dockerfile.discord
 
 run:
-    web: gunicorn -w 4 --bind 0.0.0.0:$PORT wsgi:create_app()
+    web: gunicorn -w 4 --bind 0.0.0.0:$PORT wsgi:create_app\(\)
