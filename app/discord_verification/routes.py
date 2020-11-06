@@ -58,6 +58,10 @@ def verify_user():
 
     user = User.query.filter_by(id = user_id).first()
 
+    if not get_member(user_id):
+        flash('You\'re not currently a member on this server')
+        return render_template('discord_register.html', form = form)
+
     if user:
         if user.verified:
             flash('You are already verified on this server.', 'alert-warning')
