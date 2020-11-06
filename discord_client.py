@@ -74,7 +74,7 @@ async def on_member_remove(member: object) -> None:
     Discord server.
     '''
 
-    async for message in client.get_user(member.id).history(limit = 100):
+    async for message in bot.get_user(member.id).history(limit = 100):
         if message.author.id == bot.user.id:
             await message.delete()
             await asyncio.sleep(0.5)
