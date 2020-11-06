@@ -126,6 +126,8 @@ async def mass_dm(ctx, role: str, *message: str):
 @bot.command(name = 'verify')
 async def verify(ctx, username: str, email: str):
     username = username.strip('@')
+    print(username)
+    
     author = ctx.message.author # get the object of the author of the message
     member = get(author.guild.members, name = username)
     role = get(author.guild.roles, name = DiscordConfig.STUDENT_2020_ROLE)
