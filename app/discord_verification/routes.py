@@ -62,8 +62,10 @@ def verify_user():
 
     if form.email.data[:2] == '19':
         flash('2nd year and foundation students should contact a Moderator to be verified')
+        return render_template('discord_register.html', form = form)
     elif form.email.data[:2] != '20':
         flash('your email address is from an unrecognised year, please contact a Moderator to be verified')
+        return render_template('discord_register.html', form = form)
 
     if user:
         if user.verified:
