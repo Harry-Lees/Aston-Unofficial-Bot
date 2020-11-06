@@ -25,7 +25,7 @@ welcome_message = '''
 Thanks for joining the **Aston Unofficial Discord Server**
 
 Please verify your email by clicking below:
-http://harryl.co.uk/user/register?user_id={}
+https://aston-unofficial.herokuapp.com/discord/register?user_id={}
 
 :warning: you will not be able to join the server without an aston.ac.uk email address :warning:
 
