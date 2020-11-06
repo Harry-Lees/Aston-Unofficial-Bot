@@ -2,5 +2,8 @@ build:
     docker:
         flask: Dockerfile.flask
         worker: Dockerfile.flask
+        image: web
+
         discord: Dockerfile.discord
-        worker: Dockerfile.discord
+        worker: Dockerfile.discord 
+        image: discord
