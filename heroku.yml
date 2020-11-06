@@ -1,4 +1,4 @@
 build:
     docker:
-        web: Dockerfile.flask
+        web: Dockerfile
         discord: Dockerfile.discord
