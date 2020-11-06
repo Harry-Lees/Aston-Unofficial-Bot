@@ -1,4 +1,6 @@
 build:
     docker:
         flask: Dockerfile.flask
+        worker: worker/Dockerfile.flask
         discord: Dockerfile.discord
+        worker: worker/Dockerfile.discord
