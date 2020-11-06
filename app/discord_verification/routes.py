@@ -58,6 +58,13 @@ def verify_user():
 
     user = User.query.filter_by(id = user_id).first()
 
+    print(form.email.data[:2])
+
+    if form.email.data[:2] == '19':
+        flash('2nd year and foundation students should contact a Moderator to be verified')
+    elif form.email.data[:2] != '20':
+        flash('your email address is from an unrecognised year, please contact a Moderator to be verified')
+
     if user:
         if user.verified:
             flash('You are already verified on this server.', 'alert-warning')

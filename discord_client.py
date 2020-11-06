@@ -127,7 +127,6 @@ async def mass_dm(ctx, role: str, *message: str):
 async def verify(ctx, username: str, email: str):
     author = ctx.message.author # get the object of the author of the message
     member = get(author.guild.members, name = username)
-    role = get(member.guild.roles, name = DiscordConfig.STUDENT_ROLE)
 
     with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection: # Could convert this to SQLAlchemy
         cursor = connection.cursor()
@@ -161,7 +160,7 @@ async def unverify(ctx: object, username: str):
     username = username.strip('@')
     author = ctx.message.author
     member = get(author.guild.members, name = username)
-    role = get(author.guild.roles, name = DiscordConfig.STUDENT_ROLE)
+    role = get(author.guild.roles, name = DiscordConfig.STUDENT_2020_ROLE)
     
     with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection: # will only delete if record exists
         cursor = connection.cursor()
@@ -183,7 +182,7 @@ async def unverify_error(ctx: object, error: Exception) -> None:
 async def give_role(user_id: str, guild: object):
     user_id = int(user_id) # user_id has to be an integer for get_member
     member = guild.get_member(user_id)
-    role = get(guild.roles, name = DiscordConfig.STUDENT_ROLE)
+    role = get(guild.roles, name = DiscordConfig.STUDENT_2020_ROLE)
 
     print(f'verified account {member.name}')
     await member.add_roles(role, 'verified account')
