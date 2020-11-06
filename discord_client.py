@@ -153,6 +153,7 @@ async def ping(ctx):
 
 @bot.command(name = 'unverify')
 async def unverify(ctx: object, username: str):
+    username = username.strip('@')
     author = ctx.message.author
     member = get(author.guild.members, name = username)
     role = get(author.guild.roles, name = DiscordConfig.STUDENT_ROLE)
