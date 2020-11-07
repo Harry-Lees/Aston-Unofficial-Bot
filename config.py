@@ -3,10 +3,10 @@ from os import getenv
 
 class DiscordConfig:
     DISCORD_TOKEN = getenv('DISCORD_TOKEN')
-    ADMIN_ROLE = 'Admin' # name of admin role
+    ADMIN_ROLE = 'Mod' # name of admin role
     STUDENT_2020_ROLE = '2020' # name of student 2020 role
     STUDENT_2019_ROLE = '2019' # name of student 2019 role
-    LECTURER_ROLE = 'teacher' # name of lecturer role
+    LECTURER_ROLE = 'Aston Staff' # name of lecturer role
 
 
 class Config:

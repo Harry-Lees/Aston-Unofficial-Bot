@@ -5,7 +5,7 @@ import asyncio
 
 import discord
 from discord.ext import commands
-from discord.ext.commands.errors import MissingPermissions, BadArgument
+from discord.ext.commands.errors import MissingPermissions, BadArgument, MissingRole
 
 from discord.utils import get
 
@@ -153,7 +153,7 @@ async def verify(ctx, username: str, email: str, role: str):
 async def verify_error(ctx: object, error: Exception) -> None:
     if isinstance(error, BadArgument):
         await ctx.send('Could not verify this memeber, please check spelling and try again')
-    elif isinstance(error, MissingPermissions):
+    elif isinstance(error, MissingRole):
         await ctx.send(f'Sorry {ctx.message.author}, you don\'t have permissions to do that')
     else:
         await ctx.send(f'an unexpected error occurred: {error}')
