@@ -5,7 +5,8 @@ import asyncio
 
 import discord
 from discord.ext import commands
-from discord.ext.commands import BadArgument
+from discord.ext.commands.errors import MissingRole, BadArgument
+
 from discord.utils import get
 
 import psycopg2 # used over SQLAlchemy for listen/ notify functionality
@@ -108,6 +109,9 @@ async def on_member_remove(member: object) -> None:
 @bot.command(name = 'mass_dm')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
 async def mass_dm(ctx, role: str, *message: str):
+    '''
+    DM's all users with a given role.
+    '''
     member = ctx.message.author
     role = get(member.guild.roles, name = role)
 
@@ -121,12 +125,15 @@ async def mass_dm(ctx, role: str, *message: str):
 
 @bot.command(name = 'verify')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
-async def verify(ctx, username: str, email: str):
+async def verify(ctx, username: str, email: str, role: str):
+    '''
+    Manually Verify a user. Their email will be added to the database.
+    '''
     username = username.strip('@')
     
     author = ctx.message.author # get the object of the author of the message
     member = get(author.guild.members, name = username)
-    role = get(author.guild.roles, name = DiscordConfig.STUDENT_2020_ROLE)
+    role = get(author.guild.roles, name = role)
 
     with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection: # Could convert this to SQLAlchemy
         cursor = connection.cursor()
@@ -155,15 +162,19 @@ async def verify_error(ctx: object, error: Exception) -> None:
 @bot.command(name = 'ping')
 async def ping(ctx: object):
     '''
-    Pings the server to check if it's up.
+    Pong. Pings the server to check if it's up.
     '''
-    
+
     await ctx.send('pong')
 
 
 @bot.command(name = 'remove_role')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
 async def remove_role(ctx: object, role: str) -> None:
+    '''
+    Removes a given role from *all* users in the server.
+    '''
+
     author = ctx.message.author
     role = get(author.guild.roles, name = role)
 
@@ -185,17 +196,19 @@ async def remove_role_error(ctx: object, error: Exception) -> None:
 @bot.command(name = 'unverify')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
 async def unverify(ctx: object, username: str):
+    '''
+    Unverifies the user, removing their entry in the database. This command does not remove their roles.
+    '''
+
     username = username.strip('@')
     author = ctx.message.author
     member = get(author.guild.members, name = username)
-    role = get(author.guild.roles, name = DiscordConfig.STUDENT_2020_ROLE)
     
     with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection: # will only delete if record exists
         cursor = connection.cursor()
         cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', {'user_id' : str(member.id)})
         connection.commit()
 
-    await member.remove_roles(role)
     await ctx.send(f'{username} has had their verification revoked')
 
 
@@ -207,9 +220,13 @@ async def unverify_error(ctx: object, error: Exception) -> None:
         await ctx.send(f'An unexpected error occurred: {error}')
 
 
-@bot.command(name = 'test_embed')
+@bot.command(name = 'verification_prompt')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
-async def test_embed(ctx: object, role: str):
+async def verification_prompt(ctx: object, role: str):
+    '''
+    sends a verification prompt to all users with a given role.
+    '''
+
     author = ctx.message.author
     role = get(author.guild.roles, name = role)
 
