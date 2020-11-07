@@ -21,21 +21,21 @@ bot = commands.Bot(command_prefix = '!')
 channel = bot.get_channel('channel id')
 
 reverify_message = '''
-We've just introduced a new verification bot to ensure that students are members of Aston University.
-We have removed everyone's roles to ensure everyone is properly verified.
+We've just introduced a new verification bot to ensure that all users are members of Aston University.
+In order to do so, we have removed everyone's member & subject role.
 
-If you're currently a second year student or have had a foundation year, please contact a Moderator. You will be allowed in the Server,
+- If you're currently a 2nd-year student or have had a foundation year, please contact a Moderator. You will be allowed in the Server,
 we just have to manually give you your role!
 
-If you are a lecturer or someone from another yeargroup, please contact a Moderator to get manually verified.
+- If you are a *lecturer* or someone from another year group, please contact a Moderator to get manually verified.
 
-You will be asked to provide your aston.ac.uk email address so we can properly verify you go to Aston university.
+- *You will be asked to provide your Aston.ac.uk email address so we can properly verify you go to Aston University.*
 
-In order to reverify, please click on the link below:
+To re-verify, please click on the link below:
 https://aston-unofficial.herokuapp.com/discord/register?user_id={}
 
 
-If you have any questions, please feel free to contact a Moderator or open a ticket.
+If you have any questions, please feel free to contact a Moderator by opening a ticket.
 '''
 
 
@@ -228,9 +228,8 @@ async def test_embed(ctx: object, role: str):
     author = ctx.message.author
     role = get(author.guild.roles, name = role)
 
-    embed = discord.Embed(title = 'Hey!', description = reverify_message.format(member.id), color = 0x7289DA)
-
     for member in role.members:
+        embed = discord.Embed(title = 'Hey!', description = reverify_message.format(member.id), color = 0x7289DA)
         await member.send(embed)
 
 
