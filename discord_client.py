@@ -119,6 +119,7 @@ async def mass_dm(ctx, role: str, *message: str):
     joined_message = ' '.join(message)
     for member in role.members:
         await member.send(joined_message)
+        await asyncio.sleep(0.5)
 
     await ctx.send(f'sending mass DM to users: ' + ', '.join(m.name for m in role.members))
 
@@ -166,8 +167,9 @@ async def remove_role(ctx: object, role: str) -> None:
 
     for member in author.guild.members:
         await member.remove_roles(role)
+        await asyncio.sleep(0.5)
 
-    await ctx.send(f'removed **{role}** role from {len(author.guild.members)} members')
+    await ctx.send(f'removed **{role}** role from {len(author.guild.members)} members in {len(author.guild.members) * 0.5}s')
 
 
 @remove_role.error
