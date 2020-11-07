@@ -67,16 +67,14 @@ def verify_user():
         return render_template('discord_register.html', form = form)
 
     if form.validate_on_submit():
-        print(form.email.data[:2])
-
-        if form.email.data[:2] == '19':
-            flash('2nd year and foundation students should contact a Moderator to be verified', 'alert-warning')
-            return render_template('discord_register.html', form = form)
-        elif form.email.data[:2] != '20':
-            flash('your email address is from an unrecognised year, please contact a Moderator to be verified', 'alert-warning')
-            return render_template('discord_register.html', form = form)
-
         if email_valid(form.email.data):
+            if form.email.data[:2] == '19':
+                flash('2nd year and foundation students should contact a Moderator to be verified', 'alert-warning')
+                return render_template('discord_register.html', form = form)
+            elif form.email.data[:2] != '20':
+                flash('your email address is from an unrecognised year, please contact a Moderator to be verified', 'alert-warning')
+                return render_template('discord_register.html', form = form)
+
             user = User(
                 email = form.email.data,
                 id = user_id,
