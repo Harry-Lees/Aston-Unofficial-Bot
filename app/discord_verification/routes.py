@@ -87,8 +87,8 @@ def verify_user():
 
 @blueprint.route('/resend', methods = ['GET', 'POST'])
 def resend_email():
-    email = request.args.get('email', None)
     user_id = request.args.get('user_id', None)
+    print(user_id)
 
     if email and user_id:
         _send_email(form.email.data, user_id)
