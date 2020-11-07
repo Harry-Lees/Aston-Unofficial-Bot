@@ -46,7 +46,7 @@ Thanks for joining the **Aston Unofficial Discord Server**
 Please verify your email by clicking below:
 https://aston-unofficial.herokuapp.com/discord/register?user_id={}
 
-:warning: you will not be able to join the server without an aston.ac.uk email address :warning:
+:warning: You will not be able to join the server without an aston.ac.uk email address :warning:
 
 You will be allocated a teacher or student role when you join the server.
 These will grant you access to all general channels that you are applicable for.
@@ -57,11 +57,11 @@ This channel contains all the rules and regulations for our server.
 
 :teacher:  **2. Join a Subject**
 This gives you access to your subject specific channels where you can find people from your course!
-To do this, please go into the #roles channel and react to the Subjects message with your subject.
+To do this, please go into the #roles channel and react to the Emojis related to your subject.
 
 :soccer:  **3. Join Optional Channels**
 We have lots of optional channels for things such as Gaming, Music, Tech, and much more!
-To do this, please go into the #roles channel and react to the Optional message with your interests.
+To do this, please go into the #roles channel and react to the Emoji related to your interest.
 '''
 
 
