@@ -127,18 +127,19 @@ async def mass_dm(ctx, role: str, *message: str):
 
 @bot.command(name = 'verify')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
-async def verify(ctx, username: Union[str, object], email: str, role: str):
+async def verify(ctx, username: Union[discord.Member, str], email: str, role: Union[discord.Role, str]):
     '''
     Manually Verify a user. Their email will be added to the database.
     '''
     author = ctx.message.author # get the object of the author of the message
     
-    if isinstance(username, str):
-        member = get(author.guild.members, name = username)
-    else:
+    if isinstance(username, discord.Member):
         member = username
+    else:
+        member = get(author.guild.members, name = username)
     
-    role = get(author.guild.roles, name = role)
+    if not isinstance(role, discord.Role):
+        role = get(author.guild.roles, name = role)
 
     with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection: # Could convert this to SQLAlchemy
         cursor = connection.cursor()
