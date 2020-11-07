@@ -11,6 +11,7 @@ from discord.utils import get
 
 import psycopg2 # used over SQLAlchemy for listen/ notify functionality
 import psycopg2.extensions
+from psycopg2.errors import UniqueViolation
 
 from app.discord_verification.models import User
 from app.extensions import database
@@ -22,7 +23,7 @@ bot = commands.Bot(command_prefix = '!')
 channel = bot.get_channel('channel id')
 
 reverify_message = '''
-We've just introduced a new verification bot to ensure that all users are members of Aston University. In order to do so, we have removed everyone's member & subject role.
+We've just introduced a new verification bot to ensure that all users are members of Aston University. In order to do so, we have removed everyone's member & subject role. You will have to reselect your subject role after verifying.
 
 - If you're currently a 2nd-year student or have had a foundation year, please contact a Moderator. You will be allowed in the Server, but
 we have to verify you manually!
