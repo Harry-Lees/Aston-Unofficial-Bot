@@ -77,6 +77,15 @@ def verify_user():
             return render_template('discord_register.html', form = form)
 
         if email_valid(form.email.data):
+            user = User(
+                email = form.email.data,
+                id = user_id,
+                verified = False
+            )
+
+            database.session.add(user)
+            database.session.commit()
+
             _send_email(form.email.data, user_id)
             flash(f'An email has been sent to {form.email.data}, you may now close this page.', 'alert-success')
         else:
@@ -99,22 +108,13 @@ def resend_email():
 
 
 def _send_email(email: str, user_id: str):
-    user = User(
-        email = email,
-        id = user_id,
-        verified = False
-    )
-
-    database.session.add(user)
-    database.session.commit()
-
     # generate Email data
-    token = generate_token(user.email)
+    token = generate_token(email)
     confirm_url = url_for('discord.confirm_email', token = token, _external = True)
     html = render_template('email.html', confirm_url = confirm_url)
     subject = 'Welcome to Aston Unofficial'
     
-    send_email(current_app, user.email, subject, html)
+    send_email(current_app, email, subject, html)
 
 def generate_token(email):
     serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
