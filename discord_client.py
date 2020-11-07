@@ -192,6 +192,7 @@ async def remove_role(ctx: object, role: Union[discord.Role, str]) -> None:
         await member.remove_roles(role)
         await asyncio.sleep(0.5)
 
+    await ctx.send('finished removing roles')
 
 @remove_role.error
 async def remove_role_error(ctx: object, error: Exception) -> None:
@@ -234,6 +235,7 @@ async def verification_prompt(ctx: object, role: str):
     '''
     sends a verification prompt to all users with a given role.
     '''
+    print('started verification')
 
     author = ctx.message.author
     role = get(author.guild.roles, name = role)
@@ -242,6 +244,8 @@ async def verification_prompt(ctx: object, role: str):
         embed = discord.Embed(title = 'Hey!', description = reverify_message.format(member.id), color = 0x7289DA)
         await member.send(embed = embed)
 
+
+    await ctx.send('verification prompt finished!')
 
 async def give_role(user_id: str, guild: object):
     user_id = int(user_id) # user_id has to be an integer for get_member
