@@ -165,7 +165,7 @@ async def remove_role(ctx: object, role: str) -> None:
     role = get(author.guild.roles, name = role)
 
     for member in author.guild.members:
-        member.remove_role(role)
+        member.remove_roles(role)
 
     await ctx.send(f'removed {role} role from {len(author.guild.members)}')
 
