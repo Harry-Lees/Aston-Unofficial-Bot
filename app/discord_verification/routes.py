@@ -48,6 +48,7 @@ def confirm_email(token: str):
 
     return redirect(url_for('discord.verification_result'))
 
+
 @blueprint.route('/register', methods = ['GET', 'POST'])
 def verify_user():
     form = EmailVerification()
@@ -76,28 +77,43 @@ def verify_user():
             return render_template('discord_register.html', form = form)
 
         if email_valid(form.email.data):
-            user = User(
-                email = form.email.data,
-                id = user_id,
-                verified = False
-            )
-
-            database.session.add(user)
-            database.session.commit()
-
-            # generate Email data
-            token = generate_token(user.email)
-            confirm_url = url_for('discord.confirm_email', token = token, _external = True)
-            html = render_template('email.html', confirm_url = confirm_url)
-            subject = 'Welcome to Aston Unofficial'
-            
-            send_email(current_app, user.email, subject, html)
+            _send_email(form.email.data, user_id)
             flash(f'An email has been sent to {user.email}, you may now close this page.', 'alert-success')
         else:
             flash('Please enter a valid aston.ac.uk email address', 'alert-warning')
 
     return render_template('discord_register.html', form = form)
 
+
+@blueprint.route('/resend', methods = ['GET', 'POST'])
+def resend_email():
+    email = request.args.get('email', None)
+    user_id = request.args.get('user_id', None)
+
+    if email and user_id:
+        _send_email(form.email.data, user_id)
+        flash(f'An email has been resent to {user.email}, you may now close this page.', 'alert-success')
+    else:
+        flash('Something went wrong. Please contact a Moderator for manual verification', 'alert-danger')
+
+
+def _send_email(email: str, user_id: str):
+    user = User(
+        email = email,
+        id = user_id,
+        verified = False
+    )
+
+    database.session.add(user)
+    database.session.commit()
+
+    # generate Email data
+    token = generate_token(user.email)
+    confirm_url = url_for('discord.confirm_email', token = token, _external = True)
+    html = render_template('email.html', confirm_url = confirm_url)
+    subject = 'Welcome to Aston Unofficial'
+    
+    send_email(current_app, user.email, subject, html)
 
 def generate_token(email):
     serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
