@@ -105,6 +105,8 @@ def resend_email():
         flash(f'An email has been resent to {user.email}, you may now close this page.', 'alert-success')
     else:
         flash('You haven\'t been send an email yet. Please fill in the form to send an email', 'alert-warning')
+    
+    return redirect(url_for('discord.verify_user'))
 
 
 def _send_email(email: str, user_id: str):
