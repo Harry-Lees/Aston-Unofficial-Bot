@@ -63,7 +63,7 @@ def verify_user():
         if user.verified:
             flash('You are already verified on this server.', 'alert-warning')
             return render_template('discord_register.html', form = form)
-        flash('You have already started the verification process. If you have not received an email, please click the link below', 'alert-warning')
+        flash('You have already started the verification process. If you have not received an email, please check your junk mail or click the link below.', 'alert-warning')
         return render_template('discord_register.html', form = form)
 
     if form.validate_on_submit():
@@ -88,13 +88,14 @@ def verify_user():
 @blueprint.route('/resend', methods = ['GET', 'POST'])
 def resend_email():
     user_id = request.args.get('user_id', None)
-    print(user_id)
 
-    if email and user_id:
+    user = User.query.filter_by(id = user_id).first()
+
+    if user:
         _send_email(form.email.data, user_id)
         flash(f'An email has been resent to {user.email}, you may now close this page.', 'alert-success')
     else:
-        flash('Something went wrong. Please contact a Moderator for manual verification', 'alert-danger')
+        flash('You haven\'t been send an email yet. Please fill in the form to send an email', 'alert-warning')
 
 
 def _send_email(email: str, user_id: str):
