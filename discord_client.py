@@ -182,15 +182,15 @@ async def remove_role(ctx: object, role: Union[discord.Role, str]) -> None:
     '''
 
     author = ctx.message.author
-    
+
     if not isinstance(role, discord.Role):
         role = get(author.guild.roles, name = role)
+
+    await ctx.send(f'removing **{role}** role from {len(author.guild.members)} members in {len(author.guild.members) * 0.5}s')
 
     for member in author.guild.members:
         await member.remove_roles(role)
         await asyncio.sleep(0.5)
-
-    await ctx.send(f'removed **{role}** role from {len(author.guild.members)} members in {len(author.guild.members) * 0.5}s')
 
 
 @remove_role.error
