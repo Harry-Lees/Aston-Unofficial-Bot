@@ -1,7 +1,7 @@
 build:
     docker:
         web: Dockerfile
-        discord: Dockerfile.discord
+        worker: Dockerfile.discord
 
 run:
     web: gunicorn -w 4 --bind 0.0.0.0:$PORT wsgi:create_app\(\)
