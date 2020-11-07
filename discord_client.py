@@ -154,6 +154,10 @@ async def verify_error(ctx: object, error: Exception) -> None:
 
 @bot.command(name = 'ping')
 async def ping(ctx: object):
+    '''
+    Pings the server to check if it's up.
+    '''
+    
     await ctx.send('pong')
 
 
