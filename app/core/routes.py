@@ -12,6 +12,11 @@ def return_index():
     return render_template('index.html', announcements = announcements)
 
 
+@blueprint.route('/feedback')
+def feedback():
+    return render_template('feedback.html')
+
+
 @blueprint.errorhandler(404)
 def error_404():
     return render_template('error.html', error)
