@@ -5,7 +5,7 @@ import asyncio
 
 import discord
 from discord.ext import commands
-from discord.ext.commands.errors import MissingRole, BadArgument
+from discord.ext.commands.errors import MissingPermissions, BadArgument
 
 from discord.utils import get
 
