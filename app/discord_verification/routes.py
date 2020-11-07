@@ -78,7 +78,7 @@ def verify_user():
 
         if email_valid(form.email.data):
             _send_email(form.email.data, user_id)
-            flash(f'An email has been sent to {user.email}, you may now close this page.', 'alert-success')
+            flash(f'An email has been sent to {form.email.data}, you may now close this page.', 'alert-success')
         else:
             flash('Please enter a valid aston.ac.uk email address', 'alert-warning')
 
@@ -92,7 +92,7 @@ def resend_email():
     user = User.query.filter_by(id = user_id).first()
 
     if user:
-        _send_email(form.email.data, user_id)
+        _send_email(user.email, user_id)
         flash(f'An email has been resent to {user.email}, you may now close this page.', 'alert-success')
     else:
         flash('You haven\'t been send an email yet. Please fill in the form to send an email', 'alert-warning')
