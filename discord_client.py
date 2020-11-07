@@ -84,7 +84,7 @@ async def on_member_join(member: object) -> None:
     '''
 
     embed = discord.Embed(title = 'Welcome', description = welcome_message.format(member.id), color = 0x7289DA)
-    await member.send(embed)
+    await member.send(embed = embed)
 
 
 @bot.event
@@ -230,7 +230,7 @@ async def test_embed(ctx: object, role: str):
 
     for member in role.members:
         embed = discord.Embed(title = 'Hey!', description = reverify_message.format(member.id), color = 0x7289DA)
-        await member.send(embed)
+        await member.send(embed = embed)
 
 
 async def give_role(user_id: str, guild: object):
