@@ -103,35 +103,10 @@ async def on_member_remove(member: object) -> None:
         cursor = connection.cursor()
         cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', {'user_id' : str(member.id)})
         connection.commit()
-
-
-@bot.command(name = 'commands')
-async def commands(ctx):
-    commands = '''
-    ```
-!mass_dm <role> <message>
-
-    - Send a DM to every member with a given role.
-
-!verify <username> <email>
-
-    - Manually verify a user. This only works if the user has no record in the database. 
-    Please use the unverify command first if the user has already begun the verification process.
-
-!unverify <username>
-
-    - Manually unverify a user, this will remove their role and remove their entry in the database.
-
-!ping
-
-    - Pong. Test if the server is up.
-    ```
-    '''
-    
-    await ctx.send(commands)
         
         
 @bot.command(name = 'mass_dm')
+@commands.has_role(DiscordConfig.ADMIN_ROLE)
 async def mass_dm(ctx, role: str, *message: str):
     member = ctx.message.author
     role = get(member.guild.roles, name = role)
@@ -145,6 +120,7 @@ async def mass_dm(ctx, role: str, *message: str):
 
 
 @bot.command(name = 'verify')
+@commands.has_role(DiscordConfig.ADMIN_ROLE)
 async def verify(ctx, username: str, email: str):
     username = username.strip('@')
     
@@ -170,6 +146,8 @@ async def verify(ctx, username: str, email: str):
 async def verify_error(ctx: object, error: Exception) -> None:
     if isinstance(error, BadArgument):
         await ctx.send('Could not verify this memeber, please check spelling and try again')
+    elif isinstance(error, MissingPermissions):
+        await ctx.send(f'Sorry {ctx.message.author}, you don\'t have permissions to do that')
     else:
         await ctx.send(f'an unexpected error occurred: {error}')
 
@@ -180,6 +158,7 @@ async def ping(ctx: object):
 
 
 @bot.command(name = 'remove_role')
+@commands.has_role(DiscordConfig.ADMIN_ROLE)
 async def remove_role(ctx: object, role: str) -> None:
     author = ctx.message.author
     role = get(author.guild.roles, name = role)
@@ -200,6 +179,7 @@ async def remove_role_error(ctx: object, error: Exception) -> None:
 
 
 @bot.command(name = 'unverify')
+@commands.has_role(DiscordConfig.ADMIN_ROLE)
 async def unverify(ctx: object, username: str):
     username = username.strip('@')
     author = ctx.message.author
@@ -224,6 +204,7 @@ async def unverify_error(ctx: object, error: Exception) -> None:
 
 
 @bot.command(name = 'test_embed')
+@commands.has_role(DiscordConfig.ADMIN_ROLE)
 async def test_embed(ctx: object, role: str):
     author = ctx.message.author
     role = get(author.guild.roles, name = role)
