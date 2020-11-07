@@ -18,6 +18,8 @@ from app.extensions import database
 
 from config import Config, DiscordConfig
 
+from typing import Union
+
 # setup Discord connection
 bot = commands.Bot(command_prefix = '!')
 channel = bot.get_channel('channel id')
@@ -125,7 +127,7 @@ async def mass_dm(ctx, role: str, *message: str):
 
 @bot.command(name = 'verify')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
-async def verify(ctx, username: str | object, email: str, role: str):
+async def verify(ctx, username: Union[str, object], email: str, role: str):
     '''
     Manually Verify a user. Their email will be added to the database.
     '''
