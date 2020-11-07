@@ -21,15 +21,15 @@ bot = commands.Bot(command_prefix = '!')
 channel = bot.get_channel('channel id')
 
 reverify_message = '''
-We've just introduced a new verification bot to ensure that all users are members of Aston University.
+Hey, we've just introduced a new verification bot to ensure that all users are members of Aston University.
 In order to do so, we have removed everyone's member & subject role.
 
-- If you're currently a 2nd-year student or have had a foundation year, please contact a Moderator. You will be allowed in the Server,
-we just have to manually give you your role!
+- If you're currently a 2nd-year student or have had a foundation year, please contact a Moderator. You will be allowed in the Server, but
+we have to verify you manually!
 
 - If you are a *lecturer* or someone from another year group, please contact a Moderator to get manually verified.
 
-- *You will be asked to provide your Aston.ac.uk email address so we can properly verify you go to Aston University.*
+- *You will be asked to provide your "Aston.ac.uk" email address so we can properly verify that you go to Aston University.*
 
 To re-verify, please click on the link below:
 https://aston-unofficial.herokuapp.com/discord/register?user_id={}
@@ -82,8 +82,8 @@ async def on_member_join(member: object) -> None:
     builtin Discord.py function called whenever a user joins the
     Discord server.
     '''
-    embed = discord.Embed(title = 'Welcome', description = welcome_message.format(member.id), color = 0x7289DA)
 
+    embed = discord.Embed(title = 'Welcome', description = welcome_message.format(member.id), color = 0x7289DA)
     await member.send(embed)
 
 
