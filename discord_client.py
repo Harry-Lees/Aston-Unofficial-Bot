@@ -176,13 +176,15 @@ async def ping(ctx: object):
 
 @bot.command(name = 'remove_role')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
-async def remove_role(ctx: object, role: str) -> None:
+async def remove_role(ctx: object, role: Union[discord.Role, str]) -> None:
     '''
     Removes a given role from *all* users in the server.
     '''
 
     author = ctx.message.author
-    role = get(author.guild.roles, name = role)
+    
+    if not isinstance(role, discord.Role):
+        role = get(author.guild.roles, name = role)
 
     for member in author.guild.members:
         await member.remove_roles(role)
