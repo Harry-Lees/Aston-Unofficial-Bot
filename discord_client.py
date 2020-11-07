@@ -242,8 +242,12 @@ async def verification_prompt(ctx: object, role: str):
 
     for member in role.members:
         embed = discord.Embed(title = 'Hey!', description = reverify_message.format(member.id), color = 0x7289DA)
-        await member.send(embed = embed)
-
+        try:
+            await member.send(embed = embed)
+            print(f'sent message to {member}')
+            await asyncio.sleep(0.5)
+        except Exception:
+            print(f'failed to send message to {member}')
 
     await ctx.send('verification prompt finished!')
 
