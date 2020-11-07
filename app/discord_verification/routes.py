@@ -106,7 +106,7 @@ def resend_email():
     else:
         flash('You haven\'t been send an email yet. Please fill in the form to send an email', 'alert-warning')
     
-    return render_template('discord.verification_result')
+    return render_template('verification_result.html')
 
 
 def _send_email(email: str, user_id: str):
