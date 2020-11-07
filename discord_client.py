@@ -130,6 +130,7 @@ async def verify(ctx, username: str, email: str, role: str):
     Manually Verify a user. Their email will be added to the database.
     '''
     username = username.strip('@')
+    print(username)
     
     author = ctx.message.author # get the object of the author of the message
     member = get(author.guild.members, name = username)
