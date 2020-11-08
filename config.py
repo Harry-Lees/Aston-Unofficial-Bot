@@ -5,7 +5,6 @@ load_dotenv()
 
 
 class DiscordConfig:
-    DISCORD_TOKEN = getenv('DISCORD_TOKEN')
     ADMIN_ROLE = 'Mod' # name of admin role
     STUDENT_2020_ROLE = '2020' # name of student 2020 role
     STUDENT_2019_ROLE = '2019' # name of student 2019 role
@@ -37,6 +36,11 @@ class Config:
 
     CSRF_ENABLED = True
 
+    DISCORD_CLIENT_ID = getenv('DISCORD_CLIENT_ID')
+    DISCORD_CLIENT_SECRET = getenv('DISCORD_CLIENT_SECRET')
+    DISCORD_REDIRECT_URI = getenv('DISCORD_REDIRECT_URI')
+    DISCORD_BOT_TOKEN = getenv('DISCORD_BOT_TOKEN')
+
 class HerokuConfig(Config):
     SQLALCHEMY_DATABASE_URI = ''
     
@@ -53,6 +57,7 @@ class StagingConfig(Config):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
+    OAUTHLIB_INSECURE_TRANSPORT = 'true'
     
 
 class TestingConfig(Config):
