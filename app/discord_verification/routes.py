@@ -101,12 +101,15 @@ def resend_email():
     if user:
         _send_email(user.email, user_id)
         flash(f'An email has been resent to {user.email}, you may now close this page.', 'alert-success')
-    elif user.email[:2] == '19':
+    else:
+        flash('You haven\'t been sent an email yet. Please fill in the form to send an email', 'alert-warning')
+    
+    if user.email[:2] == '19':
         flash('2nd year and foundation students should contact a Moderator to be verified', 'alert-warning')
     elif form.email.data[:2] != '20':
         flash('Your email address is from an unrecognised year, please contact a Moderator to be verified', 'alert-warning')
     else:
-        flash('You haven\'t been sent an email yet. Please fill in the form to send an email', 'alert-warning')
+        flash('Something went wrong. Please contact a Moderator')
 
     return render_template('verification_result.html')
 
