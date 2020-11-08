@@ -330,7 +330,7 @@ def database_notify() -> None: # I think there's a better way of doing this. Ple
 
 @bot.command('role_dist')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
-def role_dist(ctx: object):
+async def role_dist(ctx: object):
     filename = 'role_distribution.png'
     author = ctx.message.author
     roles = author.guild.roles
