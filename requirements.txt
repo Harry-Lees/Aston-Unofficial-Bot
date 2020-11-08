@@ -11,4 +11,4 @@ guzzle_sphinx_theme
 flask_bcrypt
 flask_login
 matplotlib
-dotenv
+python-dotenv
