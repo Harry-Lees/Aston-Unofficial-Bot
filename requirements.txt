@@ -12,3 +12,4 @@ flask_bcrypt
 flask_login
 matplotlib
 python-dotenv
+Flask-Discord
