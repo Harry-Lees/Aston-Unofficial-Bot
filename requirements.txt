@@ -10,3 +10,4 @@ sphinx
 guzzle_sphinx_theme
 flask_bcrypt
 flask_login
+matplotlib
