@@ -176,17 +176,17 @@ async def ping(ctx: object):
 
 @bot.command(name = 'get_link')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
-async def get_link(ctx: object, username: Union[discord.Member, str]) -> None:
+async def get_link(ctx: object, member: Union[discord.Member, str]) -> None:
     '''
     gets a verification link for a member
     '''
 
     author = ctx.message.author
 
-    if not isinstance(role, discord.Role):
-        role = get(author.guild.roles, name = role)
+    if not isinstance(member, discord.Member):
+        member = get(author.guild.roles, name = member)
 
-    await ctx.send(f'https://aston-unofficial.herokuapp.com/discord/register?user_id={author.id}')
+    await ctx.send(f'https://aston-unofficial.herokuapp.com/discord/register?user_id={member.id}')
 
 
 @bot.command(name = 'self_link')
