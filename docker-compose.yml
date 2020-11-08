@@ -33,4 +33,4 @@ services:
     depends_on:
       - flask_app
     environment: 
-      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}

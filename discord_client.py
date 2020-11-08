@@ -362,4 +362,4 @@ if __name__ == '__main__':
     thread.daemon = True
     thread.start()
 
-    bot.run(DiscordConfig.DISCORD_TOKEN)
+    bot.run(Config.DISCORD_BOT_TOKEN)
