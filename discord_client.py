@@ -1,24 +1,23 @@
+import asyncio
 import json
 from threading import Thread
 from time import sleep
-import asyncio
+from typing import Union
+from os import remove
 
 import discord
-from discord.ext import commands
-from discord.ext.commands.errors import MissingPermissions, BadArgument, MissingRole
-
-from discord.utils import get
-
-import psycopg2 # used over SQLAlchemy for listen/ notify functionality
+import psycopg2  # used over SQLAlchemy for listen/ notify functionality
 import psycopg2.extensions
+from discord.ext import commands
+from discord.ext.commands.errors import (BadArgument, MissingPermissions,
+                                         MissingRole)
+from discord.utils import get
 from psycopg2.errors import UniqueViolation
+import matplotlib.pyplot as plt
 
 from app.discord_verification.models import User
 from app.extensions import database
-
 from config import Config, DiscordConfig
-
-from typing import Union
 
 # setup Discord connection
 bot = commands.Bot(command_prefix = '!')
@@ -219,6 +218,7 @@ async def remove_role(ctx: object, role: Union[discord.Role, str]) -> None:
 
     await ctx.send('finished removing roles')
 
+
 @remove_role.error
 async def remove_role_error(ctx: object, error: Exception) -> None:
     if isinstance(error, BadArgument):
@@ -327,6 +327,32 @@ def database_notify() -> None: # I think there's a better way of doing this. Ple
         except psycopg2.OperationalError:
             print('error connecting to database')
 
+
+@bot.command('role_dist')
+@commands.has_role(DiscordConfig.ADMIN_ROLE)
+def role_dist(ctx: object):
+    filename = 'role_distribution.png'
+    author = ctx.message.author
+    roles = author.guild.roles
+
+    # Generate the plot
+    temp = {role.name : len(role.members) for role in roles}
+
+    plt.style.use('seaborn')
+    plt.bar(temp.keys(), temp.values())
+
+    plt.xlabel('Role')
+    plt.ylabel('Number of People')
+
+    plt.tight_layout()
+    
+    plt.savefig(filename)
+
+    # Send the graph
+    file = discord.File(filename)
+    await ctx.send('Role Distribution', file = file)
+
+    remove(filename)
 
 if __name__ == '__main__':
     thread = Thread(target = database_notify)
