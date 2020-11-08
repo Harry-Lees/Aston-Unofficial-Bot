@@ -248,10 +248,10 @@ async def verification_prompt(ctx: object, role: str):
             await asyncio.sleep(5)
         except discord.errors.HTTPException as error:
             print(f'RATE LIMIT: failed to send message to {member}: {error}')
-            asyncio.sleep(30)
+            asyncio.sleep(120)
         except Exception as error:
             print(f'failed to send message to {member}: {error}')
-            asyncio.sleep(30)
+            asyncio.sleep(120)
 
     await ctx.send('verification prompt finished!')
 
