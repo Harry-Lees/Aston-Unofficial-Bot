@@ -174,6 +174,31 @@ async def ping(ctx: object):
     await ctx.send('pong')
 
 
+@bot.command(name = 'get_link')
+@commands.has_role(DiscordConfig.ADMIN_ROLE)
+async def get_link(ctx: object, username: Union[discord.Member, str]) -> None:
+    '''
+    gets a verification link for a member
+    '''
+
+    author = ctx.message.author
+
+    if not isinstance(role, discord.Role):
+        role = get(author.guild.roles, name = role)
+
+    await ctx.send(f'https://aston-unofficial.herokuapp.com/discord/register?user_id={author.id}')
+
+
+@bot.command(name = 'self_link')
+async def self_link(ctx: object) -> None:
+    '''
+    gets a verification link for a member
+    '''
+
+    author = ctx.message.author
+    await ctx.send(f'https://aston-unofficial.herokuapp.com/discord/register?user_id={author.id}')
+
+
 @bot.command(name = 'remove_role')
 @commands.has_role(DiscordConfig.ADMIN_ROLE)
 async def remove_role(ctx: object, role: Union[discord.Role, str]) -> None:
@@ -255,6 +280,7 @@ async def verification_prompt(ctx: object, role: str):
 
     await ctx.send('verification prompt finished!')
 
+
 async def give_role(user_id: str, guild: object):
     user_id = int(user_id) # user_id has to be an integer for get_member
     member = guild.get_member(user_id)
@@ -300,6 +326,7 @@ def database_notify() -> None: # I think there's a better way of doing this. Ple
                     sleep(1)
         except psycopg2.OperationalError:
             print('error connecting to database')
+
 
 if __name__ == '__main__':
     thread = Thread(target = database_notify)
