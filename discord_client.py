@@ -245,9 +245,13 @@ async def verification_prompt(ctx: object, role: str):
         try:
             await member.send(embed = embed)
             print(f'sent message to {member}')
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(5)
+        except discord.errors.HTTPException as error:
+            print(f'RATE LIMIT: failed to send message to {member}: {error}')
+            asyncio.sleep(30)
         except Exception as error:
             print(f'failed to send message to {member}: {error}')
+            asyncio.sleep(30)
 
     await ctx.send('verification prompt finished!')
 
