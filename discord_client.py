@@ -21,6 +21,7 @@ from config import Config, DiscordConfig
 
 # setup Discord connection
 bot = commands.Bot(command_prefix = '!')
+
 channel = bot.get_channel('channel id')
 
 reverify_message = '''
@@ -336,7 +337,7 @@ async def role_dist(ctx: object):
     roles = author.guild.roles
 
     # Generate the plot
-    temp = {role.name : len(role.members) for role in roles}
+    temp = {role.name : len(role.members) for role in roles if len(role.members) > 1}
 
     plt.style.use('seaborn')
     plt.bar(temp.keys(), temp.values())
