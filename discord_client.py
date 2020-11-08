@@ -246,8 +246,8 @@ async def verification_prompt(ctx: object, role: str):
             await member.send(embed = embed)
             print(f'sent message to {member}')
             await asyncio.sleep(0.5)
-        except Exception:
-            print(f'failed to send message to {member}')
+        except Exception as error:
+            print(f'failed to send message to {member}: {error}')
 
     await ctx.send('verification prompt finished!')
 
