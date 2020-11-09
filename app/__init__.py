@@ -4,7 +4,7 @@ from threading import Thread
 
 from flask import Flask
 
-from .extensions import database, mail, login_manager, bcrypt
+from .extensions import database, mail, login_manager, bcrypt, discord
 
 
 def create_app() -> object:
@@ -29,6 +29,7 @@ def register_extensions(app: object) -> None:
     bcrypt.init_app(app)
     database.init_app(app)
     login_manager.init_app(app)
+    discord.init_app(app)
 
     from .discord_verification.models import User
     from .core.models import Announcements

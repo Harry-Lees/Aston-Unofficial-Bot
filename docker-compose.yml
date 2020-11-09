@@ -1,14 +1,6 @@
 version: '3.4'
 
 services:
-  database:
-    restart: always
-    image: postgres
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-
   flask_app:
     restart: on-failure
     build:
@@ -16,14 +8,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "10080:5000"
-    depends_on:
-      - database
-    environment:
-      - SECRET_KEY=${SECRET_KEY}
-      - SECURITY_PASSWORD_SALT=${SECURITY_PASSWORD_SALT}
-
-      - MAIL_USERNAME=${MAIL_USERNAME}
-      - MAIL_PASSWORD=${MAIL_PASSWORD}
+    env_file:
+      - .env
 
   aston_bot:
     restart: on-failure
@@ -33,4 +19,4 @@ services:
     depends_on:
       - flask_app
     environment: 
-      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}

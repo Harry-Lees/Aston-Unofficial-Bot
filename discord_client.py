@@ -356,10 +356,10 @@ async def role_dist(ctx: object):
     remove(filename)
 
 if __name__ == '__main__':
-    print(Config.SQLALCHEMY_DATABASE_URI)
+    print('Config: ', Config.SQLALCHEMY_DATABASE_URI)
 
     thread = Thread(target = database_notify)
     thread.daemon = True
     thread.start()
 
-    bot.run(DiscordConfig.DISCORD_TOKEN)
+    bot.run(Config.DISCORD_BOT_TOKEN)
