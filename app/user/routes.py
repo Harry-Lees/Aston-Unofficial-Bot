@@ -9,12 +9,6 @@ from .forms import LoginForm, RegisterForm
 blueprint = Blueprint('user', __name__, template_folder = 'templates')
 
 
-@blueprint.before_request
-def before_request():
-    if not request.is_secure:
-        url = request.url.replace("http://", "https://", 1)
-        return redirect(url, code = 301)
-
 @blueprint.route('/callback/')
 def callback():
     print('called')
