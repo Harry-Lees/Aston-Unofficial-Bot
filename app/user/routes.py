@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, request
+from flask import Blueprint, render_template, flash, request, redirect
 from flask_login import current_user, login_user, logout_user
 from flask_discord import requires_authorization, Unauthorized
 
@@ -12,7 +12,7 @@ blueprint = Blueprint('user', __name__, template_folder = 'templates')
 @blueprint.route('/callback/')
 def callback():
     discord.callback()
-    return redirect(url_for('.me'))
+    return redirect(url_for('user.me'))
 
 
 @blueprint.route('/login')
@@ -28,7 +28,7 @@ def logout():
 
 @blueprint.errorhandler(Unauthorized)
 def redirect_unauthorized(e):
-    return redirect(url_for("login"))
+    return redirect(url_for("user.login"))
 
 
 @blueprint.route('/me/')
