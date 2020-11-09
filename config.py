@@ -1,7 +1,4 @@
 from os import getenv
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class DiscordConfig:
@@ -28,6 +25,7 @@ class Config:
     MAIL_DEFAULT_SENDER = getenv('MAIL_USERNAME')
 
     SQLALCHEMY_DATABASE_URI = getenv('DATABASE_URL')
+
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

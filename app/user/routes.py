@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, flash, request
 from flask_login import current_user, login_user, logout_user
+from flask_discord import requires_authorization, Unauthorized
 
 from app.extensions import bcrypt, database, discord
 from .models import User
