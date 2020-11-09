@@ -9,8 +9,9 @@ from .forms import LoginForm, RegisterForm
 blueprint = Blueprint('user', __name__, template_folder = 'templates')
 
 
-@blueprint.route('/callback', methods = ['GET'])
+@blueprint.route('/callback/')
 def callback():
+    print('called')
     discord.callback()
     return redirect(url_for('user.me'))
 
