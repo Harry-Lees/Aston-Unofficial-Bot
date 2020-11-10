@@ -10,7 +10,7 @@ from discord.ext import commands
 from discord.utils import get
 from psycopg2.errors import UniqueViolation
 
-from app.user.models import User
+from app.discord_verification.models import User
 
 def setup(bot: object) -> None:
     bot.add_cog(Verification(bot))
