@@ -18,5 +18,5 @@ services:
       dockerfile: Dockerfile.discord
     depends_on:
       - flask_app
-    environment: 
-      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+    env_file:
+      - .env

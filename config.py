@@ -1,5 +1,5 @@
 from os import getenv
-
+import os
 
 class DiscordConfig:
     ADMIN_ROLE = 'Mod' # name of admin role
@@ -25,6 +25,7 @@ class Config:
     MAIL_DEFAULT_SENDER = getenv('MAIL_USERNAME')
 
     SQLALCHEMY_DATABASE_URI = getenv('DATABASE_URL')
+    print('in config: ', SQLALCHEMY_DATABASE_URI)
 
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False

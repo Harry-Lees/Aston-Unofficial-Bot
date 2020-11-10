@@ -9,9 +9,8 @@ from .forms import LoginForm, RegisterForm
 blueprint = Blueprint('user', __name__, template_folder = 'templates')
 
 
-@blueprint.route('/callback/')
+@blueprint.route('/callback')
 def callback():
-    print('called')
     discord.callback()
     return redirect(url_for('user.me'))
 
@@ -21,9 +20,10 @@ def login():
     return discord.create_session(scope=['identify', 'guilds'])
 
 
-@blueprint.route('/logout', methods = ['GET', 'POST'])
+@blueprint.route('/logout')
+@requires_authorization
 def logout():
-    logout_user()
+    discord.revoke()
     return redirect(url_for('core.index'))
 
 
@@ -32,7 +32,7 @@ def redirect_unauthorized(e):
     return redirect(url_for("user.login"))
 
 
-@blueprint.route('/me/')
+@blueprint.route('/me')
 def me():
     user = discord.fetch_user()
     return f"""
