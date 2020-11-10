@@ -123,7 +123,7 @@ class Verification(commands.Cog):
                 'email'     : email
             }
             
-            cursor.execute(f'INSERT INTO {User.__tablename__} VALUES(%(user_id)s, %(email)s, true)', arguments)
+            cursor.execute(f'INSERT INTO {User.__tablename__} VALUES(%(user_id)s, %(email)s, true)', **arguments)
 
         await member.add_roles(role)
         await ctx.send(f'{username} has been manually verified')
@@ -196,15 +196,17 @@ class Verification(commands.Cog):
 
     @commands.command(name = 'unverify')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
-    async def unverify(self, ctx: object, username: str):
+    async def unverify(self, ctx: object, member: Union[discord.Member, str]):
         '''
         Unverifies the user, removing their entry in the database. This command does not remove their roles.
         '''
 
-        username = username.strip('@')
         author = ctx.message.author
         member = get(author.guild.members, name = username)
         
+        if not isinstance(member, discord.Member):
+            member = get(author.guild.roles, name = member)
+
         with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection: # will only delete if record exists
             cursor = connection.cursor()
             cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', {'user_id' : str(member.id)})
