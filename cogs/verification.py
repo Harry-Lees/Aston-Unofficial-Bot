@@ -158,6 +158,7 @@ class Verification(commands.Cog):
     async def get_link_error(ctx, error: Exception):
         await self._error(ctx, error)
 
+
     @commands.command(name = 'self_link')
     async def self_link(self, ctx: object) -> None:
         '''
@@ -202,7 +203,6 @@ class Verification(commands.Cog):
         '''
 
         author = ctx.message.author
-        member = get(author.guild.members, name = username)
         
         if not isinstance(member, discord.Member):
             member = get(author.guild.roles, name = member)
@@ -212,7 +212,7 @@ class Verification(commands.Cog):
             cursor.execute(f'DELETE FROM {User.__tablename__} WHERE id = %(user_id)s', {'user_id' : str(member.id)})
             connection.commit()
 
-        await ctx.send(f'{username} has had their verification revoked')
+        await ctx.send(f'{member.name} has had their verification revoked')
 
 
     @unverify.error
