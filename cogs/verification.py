@@ -153,7 +153,7 @@ class Verification(commands.Cog):
 
 
     @get_link.error
-    async def get_link_error(ctx, error: Exception):
+    async def get_link_error(self, ctx, error: Exception):
         await self._error(ctx, error)
 
 
