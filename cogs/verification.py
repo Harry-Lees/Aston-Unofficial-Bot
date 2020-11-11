@@ -88,8 +88,8 @@ class Verification(commands.Cog):
         Discord server.
         '''
 
-        async for message in bot.get_user(member.id).history(limit = 100):
-            if message.author.id == bot.user.id:
+        async for message in self.bot.get_user(member.id).history(limit = 100):
+            if message.author.id == self.bot.user.id:
                 await message.delete()
                 await asyncio.sleep(0.5)
 
@@ -322,7 +322,7 @@ class Verification(commands.Cog):
                                 print(f'{error}. Is the given user in the database?')
 
                             guild = self.bot.guilds[0] # only works if the bot is connected to a single server, may change later
-                            asyncio.run_coroutine_threadsafe(give_role(user_id, guild), bot.loop)
+                            asyncio.run_coroutine_threadsafe(give_role(user_id, guild), self.bot.loop)
 
                         sleep(1)
             except psycopg2.OperationalError:
