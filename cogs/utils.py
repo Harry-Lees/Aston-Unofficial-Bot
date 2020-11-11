@@ -44,7 +44,7 @@ class Utils(commands.Cog):
 
     @commands.command('stats')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
-    async def stats(ctx: object):
+    async def stats(self, ctx: object):
         author = ctx.message.author
         roles = author.guild.roles
 
