@@ -322,7 +322,7 @@ class Verification(commands.Cog):
                                 print(f'{error}. Is the given user in the database?')
 
                             guild = self.bot.guilds[0] # only works if the bot is connected to a single server, may change later
-                            asyncio.run_coroutine_threadsafe(give_role(user_id, guild), self.bot.loop)
+                            asyncio.run_coroutine_threadsafe(self.give_role(user_id, guild), self.bot.loop)
 
                         sleep(1)
             except psycopg2.OperationalError:
