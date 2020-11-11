@@ -42,28 +42,23 @@ class Utils(commands.Cog):
         await ctx.send(embed = embed)
 
 
-    @commands.command('role_dist')
+    @commands.command('stats')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
-    async def role_dist(self, ctx: object):
-        filename = 'role_distribution.png'
+    async def stats(ctx: object):
         author = ctx.message.author
         roles = author.guild.roles
 
-        # Generate the plot
-        temp = {role.name : len(role.members) for role in roles if len(role.members) > 10}
+        desc = f'''
+        A Collection of {author.guild.name}'s stats
+        Members:  {len(author.guild.members)}
+        Roles:    {len(author.guild.roles)}
+        Channels: {len(author.guild.channels)}
+        '''
 
-        plt.style.use('seaborn')
-        plt.bar(temp.keys(), temp.values())
+        embed = discord.Embed(title = f'{author.guild.name} Stats!', description = desc, colour = discord.Colour.blue())
 
-        plt.xlabel('Role')
-        plt.ylabel('Number of People')
-
-        plt.tight_layout()
+        embed.add_field(name = 'Role', value = '\n'.join(role.name for role in roles if len(role.members) > 1), inline = True)
+        embed.add_field(name = 'Num. Members', value = '\n'.join(str(len(role.members)) for role in roles if len(role.members) > 1), inline = True)
+        embed.set_thumbnail(url = author.guild.icon_url)
         
-        plt.savefig(filename)
-
-        # Send the graph
-        file = discord.File(filename)
-        await ctx.send('Role Distribution', file = file)
-
-        remove(filename)
+        await ctx.send(embed = embed)
