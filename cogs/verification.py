@@ -79,7 +79,7 @@ class Verification(commands.Cog):
         Discord server.
         '''
 
-        embed = discord.Embed(title = 'Welcome', description = welcome_message.format(member.id), color = 0x7289DA)
+        embed = discord.Embed(title = 'Welcome', description = welcome_message.format(member.id), color = discord.Colour.green())
         await member.send(embed = embed)
 
 
@@ -125,7 +125,11 @@ class Verification(commands.Cog):
             cursor.execute(f'INSERT INTO {User.__tablename__} VALUES(%(user_id)s, %(email)s, true)', arguments)
 
         await member.add_roles(role)
-        await ctx.send(f'{member.name} has been manually verified')
+
+        embed = discord.Embed(title = 'Success!', description = f'{member.name} has been successfully verified', colour = discord.Colour.green())
+        embed.add_field(name = 'Next Steps', value = 'don\'t forget to select your subject and interest roles in the <#756115420175532133> channel')
+
+        await ctx.send(embed = embed)
 
 
     @verify.error
