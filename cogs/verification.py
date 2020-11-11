@@ -101,16 +101,14 @@ class Verification(commands.Cog):
 
     @commands.command(name = 'verify')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
-    async def verify(self, ctx: object, username: Union[discord.Member, str], email: str, role: Union[discord.Role, str]) -> None:
+    async def verify(self, ctx: object, member: Union[discord.Member, str], email: str, role: Union[discord.Role, str]) -> None:
         '''
         Manually Verify a user. Their email will be added to the database.
         '''
         author = ctx.message.author # get the object of the author of the message
         
-        if isinstance(username, discord.Member):
-            member = username
-        else:
-            member = get(author.guild.members, name = username)
+        if not isinstance(member, discord.Member):
+            member = get(author.guild.members, name = member)
         
         if not isinstance(role, discord.Role):
             role = get(author.guild.roles, name = role)
@@ -123,10 +121,10 @@ class Verification(commands.Cog):
                 'email'     : email
             }
             
-            cursor.execute(f'INSERT INTO {User.__tablename__} VALUES(%(user_id)s, %(email)s, true)', **arguments)
+            cursor.execute(f'INSERT INTO {User.__tablename__} VALUES(%(user_id)s, %(email)s, true)', arguments)
 
         await member.add_roles(role)
-        await ctx.send(f'{username} has been manually verified')
+        await ctx.send(f'{member.name} has been manually verified')
 
 
     @verify.error

@@ -1,5 +1,3 @@
-from threading import Thread
-
 import discord
 from discord.ext import commands
 
