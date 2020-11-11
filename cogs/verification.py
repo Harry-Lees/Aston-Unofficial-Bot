@@ -2,6 +2,7 @@ from threading import Thread
 from typing import Union
 from time import sleep
 
+import asyncio
 import discord
 import psycopg2
 import psycopg2.extensions
