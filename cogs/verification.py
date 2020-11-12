@@ -271,7 +271,10 @@ class Verification(commands.Cog):
             Email: {user[1]}
             '''
 
-            colour = discord.Colour.green()
+            if user[2]:
+                colour = discord.Colour.green()
+            else:
+                colour = discord.Colour.red()
         else:
             user_profile = f'''
             User ID: {member.id}
