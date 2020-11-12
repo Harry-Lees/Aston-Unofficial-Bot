@@ -65,6 +65,12 @@ def verify_user():
             return render_template('discord_register.html', form = form)
         flash('You have already started the verification process. If you have not received an email, please check your junk mail or click the link below.', 'alert-warning')
         return render_template('discord_register.html', form = form)
+    else:
+        user = User.query.filter_by(email = user_id).first()
+
+        if user:
+            flash('there is already an account registered with this email address', 'alert-warning')
+            return render_template('discord_register.html', form = form)
 
     if form.validate_on_submit():
         if email_valid(form.email.data):
