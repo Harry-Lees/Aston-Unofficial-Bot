@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, request, redirect
+from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import current_user, login_user, logout_user
 from flask_discord import requires_authorization, Unauthorized
 
