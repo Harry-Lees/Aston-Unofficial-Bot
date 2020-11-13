@@ -284,7 +284,7 @@ class Verification(commands.Cog):
         embed.add_field(name = 'Verified', value = verified)
         embed.add_field(name = 'Joined on', value = str(member.joined_at))
         
-        embed.add_field(name = 'Roles', value = ', '.join(role for role in member.roles if not role.startswith('▬')))
+        embed.add_field(name = 'Roles', value = ', '.join(role for role in member.roles if not str(role).startswith('▬')))
 
         embed.set_thumbnail(url = member.avatar_url)
 
