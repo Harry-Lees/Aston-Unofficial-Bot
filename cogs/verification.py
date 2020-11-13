@@ -270,6 +270,8 @@ class Verification(commands.Cog):
                 colour = discord.Colour.green()
             else:
                 colour = discord.Colour.red()
+        else:
+            colour = discord.Colour.red()
 
         if member.name[-1] == 's':
             title = f'{member.name}\' Profile'
