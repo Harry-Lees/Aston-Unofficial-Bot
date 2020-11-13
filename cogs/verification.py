@@ -282,7 +282,9 @@ class Verification(commands.Cog):
         embed.add_field(name = 'ID', value = member.id, inline = True)
         embed.add_field(name = 'Nickname', value = member.nick, inline = True)
         embed.add_field(name = 'Verified', value = verified, inline = False)
-        embed.add_field(name = 'Joined on', value = member.joined_at.strftime('%Y-%m-%d'), inline = False)
+        embed.add_field(name = 'Joined on', value = member.joined_at.strftime('%Y-%m-%d'), inline = True)
+                embed.add_field(name = 'Joined on', value = member.created_at.strftime('%Y-%m-%d'), inline = True)
+
         embed.add_field(name = 'Roles', value = ', '.join(role.name for role in member.roles if not role.name.startswith('▬')))
 
         await ctx.send(embed = embed)
