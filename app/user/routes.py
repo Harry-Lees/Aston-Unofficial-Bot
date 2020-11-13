@@ -17,7 +17,6 @@ def callback():
 
 @blueprint.route('/login')
 def login():
-    print(app.config)
     return discord.create_session(scope = ['identify', 'guilds'])
 
 
