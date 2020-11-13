@@ -45,7 +45,7 @@ class Utils(commands.Cog):
         Pong. Pings the server to check if it's up.
         '''
 
-        embed = discord.Embed(title = 'Pong', description = f'latency: {self.bot.latency*1000:.2f}ms', color = discord.Colour.green())
+        embed = discord.Embed(title = 'Pong', description = f':stopwatch: latency: {self.bot.latency*1000:.2f}ms', color = discord.Colour.green())
         await ctx.send(embed = embed)
 
 
@@ -73,7 +73,7 @@ class Utils(commands.Cog):
 
     @commands.command('join_log')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
-        async def join_log(self, ctx: object):
+    async def join_log(self, ctx: object):
         filename = 'temp.png'
         author = ctx.message.author
         guild = author.guild
