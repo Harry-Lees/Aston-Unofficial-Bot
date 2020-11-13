@@ -73,19 +73,19 @@ class Utils(commands.Cog):
 
     @commands.command('join_log')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
-    async def join_log(self, ctx: object):
+        async def join_log(self, ctx: object):
         filename = 'temp.png'
         author = ctx.message.author
         guild = author.guild
         
         async with ctx.typing():
-            joined_dates = Counter([member.joined_at for member in guild.members])
+            joined_dates = Counter([member.joined_at.date() for member in guild.members])
 
             start_date = min(joined_dates)
-            end_date = datetime.today()
+            end_date = datetime.today().date()
             delta = end_date - start_date
 
-            dates = [start_date + timedelta(days = i) for i in range(delta.days + 1)]
+            dates = [(start_date + timedelta(days = i)) for i in range(delta.days + 1)]
             values = [joined_dates.get(date, 0) for date in dates]
 
             fig, ax = plt.subplots()
