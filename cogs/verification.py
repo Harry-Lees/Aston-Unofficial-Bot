@@ -277,16 +277,13 @@ class Verification(commands.Cog):
             title = f'{member.name}\'s Profile'
 
         embed = discord.Embed(title = title, colour = colour)
+        embed.set_thumbnail(url = member.avatar_url)
 
         embed.add_field(name = 'ID', value = member.id, inline = True)
         embed.add_field(name = 'Nickname', value = member.nick, inline = True)
-
-        embed.add_field(name = 'Verified', value = verified)
-        embed.add_field(name = 'Joined on', value = str(member.joined_at))
-        
-        embed.add_field(name = 'Roles', value = ', '.join(role for role in member.roles if not str(role).startswith('▬')))
-
-        embed.set_thumbnail(url = member.avatar_url)
+        embed.add_field(name = 'Verified', value = verified, inline = False)
+        embed.add_field(name = 'Joined on', value = member.joined_at.strftime('%Y-%m-%d'), inline = False)
+        embed.add_field(name = 'Roles', value = ', '.join(role.name for role in member.roles if not role.name.startswith('▬')))
 
         await ctx.send(embed = embed)
 
