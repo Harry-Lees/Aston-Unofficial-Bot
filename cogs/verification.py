@@ -229,7 +229,6 @@ class Verification(commands.Cog):
         '''
         sends a verification prompt to all users with a given role.
         '''
-        print('started verification')
 
         author = ctx.message.author
         role = get(author.guild.roles, name = role)
@@ -239,7 +238,7 @@ class Verification(commands.Cog):
             try:
                 await member.send(embed = embed)
                 print(f'sent message to {member}')
-                await asyncio.sleep(30)
+                await asyncio.sleep(5)
             except discord.errors.HTTPException as error:
                 print(f'RATE LIMIT: failed to send message to {member}: {error}')
                 await asyncio.sleep(120)
@@ -254,6 +253,7 @@ class Verification(commands.Cog):
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def profile(self, ctx: object, member: Union[discord.Member, str]):
         author = ctx.message.author
+        verified = False
 
         if not isinstance(member, discord.Member):
             member = get(author.guild.members, name = member)    
@@ -265,30 +265,27 @@ class Verification(commands.Cog):
             user = cursor.fetchone()
 
         if user:
-            user_profile = f'''
-            User ID: {member.id}
-            Verified: {user[2]}
-            Email: {user[1]}
-            '''
-
             if user[2]:
+                verified = True
                 colour = discord.Colour.green()
             else:
                 colour = discord.Colour.red()
-        else:
-            user_profile = f'''
-            User ID: {member.id}
-            Verified: False
-            '''
-
-            colour = discord.Colour.red()
 
         if member.name[-1] == 's':
             title = f'{member.name}\' Profile'
         else:
             title = f'{member.name}\'s Profile'
 
-        embed = discord.Embed(title = title, description = user_profile, colour = colour)
+        embed = discord.Embed(title = title, colour = colour)
+
+        embed.add_field(name = 'ID', value = member.id, inline = True)
+        embed.add_field(name = 'Nickname', value = member.nick, inline = True)
+
+        embed.add_field(name = 'Verified', value = verified)
+        embed.add_field(name = 'Joined on', value = str(member.joined_at))
+        
+        embed.add_field(name = 'Roles', value = ', '.join(role for role in member.roles if not role.startswith('▬')))
+
         embed.set_thumbnail(url = member.avatar_url)
 
         await ctx.send(embed = embed)
