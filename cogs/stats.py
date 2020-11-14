@@ -22,6 +22,11 @@ class Stats(commands.Cog):
         self.bot = bot
 
 
+    async def _error(self, ctx, error: Exception):
+        embed = discord.Embed(title = 'Error', description = str(error), colour = discord.Colour.red())
+        await ctx.send(embed = embed)
+
+
     @commands.command('server_info')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def server_info(self, ctx: object):
@@ -50,7 +55,7 @@ class Stats(commands.Cog):
         
 
         if guild.premium_subscribers:
-            embed.add_field(name = 'Boosters', value = ', '.join(member.name for member in guild.premium_subscribers), inline = False)
+            embed.add_field(name = 'Boosters', value = ', '.join(member.nick if member.nick else member.name for member in guild.premium_subscribers), inline = False)
 
         await ctx.send(embed = embed)
 
