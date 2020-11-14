@@ -12,6 +12,8 @@ __status__ = 'Development'
 bot = commands.Bot(command_prefix = '!')
 bot.load_extension('cogs.verification')
 bot.load_extension('cogs.utils')
+bot.load_extension('cogs.stats')
+
 
 channel = bot.get_channel('channel id')
 
