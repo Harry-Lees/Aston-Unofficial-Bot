@@ -24,7 +24,7 @@ class Stats(commands.Cog):
 
     @commands.command('server_info')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
-    async def stats(self, ctx: object):
+    async def server_info(self, ctx: object):
         author = ctx.message.author
         guild = author.guild
 
@@ -50,7 +50,7 @@ class Stats(commands.Cog):
         
 
         if guild.premium_subscribers:
-            embed.add_field(name = 'Boosters', value = ', '.join(guild.premium_subscribers), inline = False)
+            embed.add_field(name = 'Boosters', value = ', '.join(member.name for member in guild.premium_subscribers), inline = False)
 
         await ctx.send(embed = embed)
 
