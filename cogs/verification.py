@@ -127,11 +127,6 @@ class Verification(commands.Cog):
         await ctx.send(embed = embed)
 
 
-    @verify.error
-    async def verify_error(self, ctx: object, error: Exception) -> None:
-        await self._error(ctx, error)
-
-
     @commands.command(name = 'get_link')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def get_link(self, ctx: object, member: Union[discord.Member, str]) -> None:
@@ -150,11 +145,6 @@ class Verification(commands.Cog):
         embed.add_field(name = 'Next Steps', value = 'After you have completed the verification process please remember to select your subject and interests in the <#756115420175532133> channel!')
 
         await ctx.send(embed = embed)
-
-
-    @get_link.error
-    async def get_link_error(self, ctx, error: Exception):
-        await self._error(ctx, error)
 
 
     @commands.command(name = 'self_link')
@@ -188,11 +178,6 @@ class Verification(commands.Cog):
         await ctx.send('finished removing roles')
 
 
-    @remove_role.error
-    async def remove_role_error(self, ctx: object, error: Exception) -> None:
-        await self._error(ctx, error)
-
-
     @commands.command(name = 'unverify')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def unverify(self, ctx: object, member: Union[discord.Member, str]):
@@ -211,11 +196,6 @@ class Verification(commands.Cog):
             connection.commit()
 
         await ctx.send(f'{member.name} has had their verification revoked')
-
-
-    @unverify.error
-    async def unverify_error(self, ctx: object, error: Exception) -> None:
-        await self._error(ctx, error)
 
 
     @commands.command(name = 'verification_prompt')
@@ -285,11 +265,6 @@ class Verification(commands.Cog):
         embed.add_field(name = 'Roles', value = ', '.join(role.name for role in member.roles if not role.name.startswith('▬')), inline = False)
 
         await ctx.send(embed = embed)
-
-
-    @profile.error
-    async def profile_error(self, ctx: object, error: Exception):
-        await self._error(ctx, error)
 
 
     def database_notify(self) -> None: # I think there's a better way of doing this. Please find it :D
