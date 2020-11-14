@@ -17,7 +17,11 @@ def setup(bot: object) -> None:
     bot.add_cog(Verification(bot))
 
 
-class Verification(commands.Cog):
+class Verification(commands.Cog, name = 'Verification'):
+    '''
+    Holds Verification commands allowing mods to see details about a user's verification status or modifying the users verification status from within Discord.
+    '''
+
     reverify_message = '''
     We've just introduced a new verification bot to ensure that all users are members of Aston University. In order to do so, we have removed everyone's member & subject role. You will have to reselect your subject role after verifying.
 
@@ -150,7 +154,7 @@ class Verification(commands.Cog):
     @commands.command(name = 'self_link')
     async def self_link(self, ctx: object) -> None:
         '''
-        gets a verification link for a member
+        gets a verification link for the user that executes the command.
         '''
 
         author = ctx.message.author
@@ -224,7 +228,7 @@ class Verification(commands.Cog):
         await ctx.send('verification prompt finished!')
 
 
-    @commands.command('profile')
+    @commands.command(name = 'profile')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def profile(self, ctx: object, member: Union[discord.Member, str]):
         author = ctx.message.author

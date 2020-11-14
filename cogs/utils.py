@@ -8,7 +8,11 @@ from discord.utils import get
 def setup(bot: object) -> None:
     bot.add_cog(Utils(bot))
 
-class Utils(commands.Cog):
+class Utils(commands.Cog, name = 'Utils'):
+    '''
+    A collection of various utilities.
+    '''
+    
     def __init__(self, bot):
         self.bot = bot
     

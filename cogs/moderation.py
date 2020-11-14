@@ -8,7 +8,11 @@ from typing import Union
 def setup(bot: object) -> None:
     bot.add_cog(Moderation(bot))
 
-class Moderation(commands.Cog):
+class Moderation(commands.Cog, name = 'Moderation'):
+    '''
+    Holds Moderation Commands, this is a WIP and may not be fully functional.
+    '''
+
     def __init__(self, bot):
         self.bot = bot
 

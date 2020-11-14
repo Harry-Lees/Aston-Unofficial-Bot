@@ -17,12 +17,16 @@ import uuid
 def setup(bot: object) -> None:
     bot.add_cog(Stats(bot))
 
-class Stats(commands.Cog):
+class Stats(commands.Cog, name = 'Stats'):
+    '''
+    Holds commands for server/ user stats.
+    '''
+    
     def __init__(self, bot):
         self.bot = bot
 
 
-    @commands.command('server_info')
+    @commands.command(name = 'server_info')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def server_info(self, ctx: object):
         '''
@@ -59,7 +63,7 @@ class Stats(commands.Cog):
         await ctx.send(embed = embed)
 
 
-    @commands.command('join_log')
+    @commands.command(name = 'join_log')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def join_log(self, ctx: object):
         '''
@@ -111,7 +115,7 @@ class Stats(commands.Cog):
             remove(filename)
 
 
-    @commands.command('member_log')
+    @commands.command(name = 'member_log')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def member_log(self, ctx: object):
         '''
@@ -167,7 +171,7 @@ class Stats(commands.Cog):
             remove(filename)
 
     
-    @commands.command('message_stats')
+    @commands.command(name = 'message_stats')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def message_stats(self, ctx: object, channel: discord.TextChannel):
         filename = f'{uuid.uuid1()}.png'
