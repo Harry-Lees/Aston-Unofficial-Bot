@@ -19,7 +19,7 @@ class Moderation(commands.Cog):
 
 
     @commands.command(name = 'mute')
-    def mute(self, ctx: object, member: Union[discord.Member, str]):
+    async def mute(self, ctx: object, member: Union[discord.Member, str]):
         author = ctx.message.author
         guild = author.guild
 
@@ -31,12 +31,12 @@ class Moderation(commands.Cog):
 
 
     @mute.error
-    def mute_error(self, ctx: object, error: Exception):
+    async def mute_error(self, ctx: object, error: Exception):
         await self._error(error)
 
 
     @commands.command(name = 'unmute')
-    def unmute(self, ctx: object, member: Union[discord.Member, str]):
+    async def unmute(self, ctx: object, member: Union[discord.Member, str]):
         author = ctx.message.author
         guild = author.guild
 
@@ -47,5 +47,5 @@ class Moderation(commands.Cog):
         await ctx.send(f'{member.name} has been unmuted')
 
     @unmute.error
-    def unmute_error(self, ctx: object, error: Exception):
+    async def unmute_error(self, ctx: object, error: Exception):
         await self._error(error)
