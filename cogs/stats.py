@@ -30,6 +30,10 @@ class Stats(commands.Cog):
     @commands.command('server_info')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def server_info(self, ctx: object):
+        '''
+        Command displays various stats about the server.
+        '''
+
         author = ctx.message.author
         guild = author.guild
 
@@ -63,6 +67,10 @@ class Stats(commands.Cog):
     @commands.command('join_log')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def join_log(self, ctx: object):
+        '''
+        Command gives various stats about the number of members joining the server.
+        '''
+
         filename = 'temp.png'
         author = ctx.message.author
         guild = author.guild
@@ -90,8 +98,77 @@ class Stats(commands.Cog):
             fig.savefig(filename)
 
             file = discord.File(filename, filename = 'image.png')
-            embed = discord.Embed()
+
+            embed = discord.Embed(title = 'Member Join Log', colour = discord.Colour.blue())
+            embed.set_thumbnail(url = guild.icon_url)
             embed.set_image(url = 'attachment://image.png')
+
+            embed.add_field(name = 'Total Members', value = guild.member_count, inline = False)
+
+            for date, num in joined_dates.items():
+                if num == max(joined_dates.values()):
+                    temp = f'{num} people on {date}'
+
+            embed.add_field(name = 'Most Active Day', value = temp, inline = False)
             
+            embed.add_field(name = 'Average joins/day', value = round(sum(joined_dates.values()) / len(dates), 3), inline = False)
+
+            await ctx.send(file = file, embed = embed)
+            remove(filename)
+
+
+
+    @commands.command('member_log')
+    @commands.has_role(DiscordConfig.ADMIN_ROLE)
+    async def member_log(self, ctx: object):
+        '''
+        Command gives various stats about the number of members on the server.
+        '''
+
+        filename = 'temp.png'
+        author = ctx.message.author
+        guild = author.guild
+        
+        async with ctx.typing():
+            joined_dates = Counter([member.joined_at.date() for member in guild.members])
+
+            start_date = min(joined_dates)
+            end_date = datetime.today().date()
+            delta = end_date - start_date
+
+            dates = [(start_date + timedelta(days = i)) for i in range(delta.days + 1)]
+            values = [joined_dates.get(date, 0) for date in dates]
+
+            for i in range(1, len(values)):
+                values[i] = values[i] + values[i-1]
+
+            fig, ax = plt.subplots()
+
+            ax.plot(dates, values)
+            ax.set_ylabel('Members')
+            ax.set_xlabel('Date')
+            ax.set_title('Members over time')
+            ax.grid(True)
+
+            fig.autofmt_xdate()
+            fig.tight_layout()
+            fig.savefig(filename)
+
+            file = discord.File(filename, filename = 'image.png')
+
+            embed = discord.Embed(title = 'Member Join Log', colour = discord.Colour.blue())
+            embed.set_thumbnail(url = guild.icon_url)
+            embed.set_image(url = 'attachment://image.png')
+
+            embed.add_field(name = 'Total Members', value = guild.member_count, inline = False)
+
+            for date, num in joined_dates.items():
+                if num == max(joined_dates.values()):
+                    temp = f'{num} people on {date}'
+
+            embed.add_field(name = 'Most Active Day', value = temp, inline = False)
+            
+            embed.add_field(name = 'Average joins/day', value = round(sum(joined_dates.values()) / len(dates), 3), inline = False)
+
             await ctx.send(file = file, embed = embed)
             remove(filename)
