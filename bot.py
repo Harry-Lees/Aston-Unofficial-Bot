@@ -13,6 +13,7 @@ bot = commands.Bot(command_prefix = '!')
 bot.load_extension('cogs.verification')
 bot.load_extension('cogs.utils')
 bot.load_extension('cogs.stats')
+bot.load_extension('cogs.moderation')
 
 
 channel = bot.get_channel('channel id')
