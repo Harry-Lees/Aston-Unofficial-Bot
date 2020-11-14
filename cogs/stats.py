@@ -110,7 +110,6 @@ class Stats(commands.Cog):
                     temp = f'{num} people on {date}'
 
             embed.add_field(name = 'Most Active Day', value = temp, inline = False)
-            
             embed.add_field(name = 'Average joins/day', value = round(sum(joined_dates.values()) / len(dates), 3), inline = False)
 
             await ctx.send(file = file, embed = embed)
@@ -171,3 +170,53 @@ class Stats(commands.Cog):
 
             await ctx.send(file = file, embed = embed)
             remove(filename)
+
+    
+    @commands.command(name = 'message_stats')
+    async def message_stats(ctx: object, channel: discord.TextChannel):
+        filename = f'{uuid.uuid1()}.png'
+        author = ctx.message.author
+        guild = author.guild
+
+        async with ctx.typing():
+            message_dates = Counter([message.created_at.date() async for message in channel.history(limit = None)])
+
+            start_date = min(message_dates)
+            end_date = datetime.today().date()
+            delta = end_date - start_date
+
+            dates = [(start_date + timedelta(days = i)) for i in range(delta.days + 1)]
+            values = [message_dates.get(date, 0) for date in dates]        
+
+            fig, ax = plt.subplots()
+
+            ax.plot(dates, values)
+            ax.set_ylabel('Number of Messages')
+            ax.set_xlabel('Date')
+            ax.set_title('Messages over time')
+            ax.grid(True)
+
+            fig.autofmt_xdate()
+            fig.tight_layout()
+            fig.savefig(filename)
+
+            file = discord.File(filename, filename = 'image.png')
+
+            embed = discord.Embed(title = 'Message Log', colour = discord.Colour.blue())
+            embed.set_thumbnail(url = guild.icon_url)
+            embed.set_image(url = 'attachment://image.png')
+
+            for date, num in message_dates.items():
+                if num == max(message_dates.values()):
+                    temp = f'{num} messages on {date}'
+
+            embed.add_field(name = 'Most Active Day', value = temp, inline = False)
+            embed.add_field(name = 'Average Messages/day', value = round(sum(message_dates.values()) / len(dates), 3), inline = False)
+
+            await ctx.send(embed = embed, file = file)
+            remove(filename)
+
+
+    @message_stats.error
+    async def message_stats_error(self, ctx: object, error: Exception) -> None:
+        await self._error(ctx, error)
