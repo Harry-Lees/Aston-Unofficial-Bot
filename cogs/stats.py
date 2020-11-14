@@ -22,11 +22,6 @@ class Stats(commands.Cog):
         self.bot = bot
 
 
-    async def _error(self, ctx, error: Exception):
-        embed = discord.Embed(title = 'Error', description = str(error), colour = discord.Colour.red())
-        await ctx.send(embed = embed)
-
-
     @commands.command('server_info')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def server_info(self, ctx: object):
@@ -116,11 +111,6 @@ class Stats(commands.Cog):
             remove(filename)
 
 
-    @join_log.error
-    async def join_log_error(self, ctx: object, error: Exception) -> None:
-        await self._error(ctx, error)
-
-
     @commands.command('member_log')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def member_log(self, ctx: object):
@@ -176,11 +166,6 @@ class Stats(commands.Cog):
             await ctx.send(file = file, embed = embed)
             remove(filename)
 
-
-    @member_log.error
-    async def member_log_error(self, ctx: object, error: Exception) -> None:
-        await self._error(ctx, error)
-
     
     @commands.command(name = 'message_stats')
     async def message_stats(ctx: object, channel: discord.TextChannel):
@@ -225,8 +210,3 @@ class Stats(commands.Cog):
 
             await ctx.send(embed = embed, file = file)
             remove(filename)
-
-
-    @message_stats.error
-    async def message_stats_error(self, ctx: object, error: Exception) -> None:
-        await self._error(ctx, error)

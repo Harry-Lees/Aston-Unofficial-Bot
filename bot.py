@@ -31,5 +31,11 @@ async def on_ready() -> None:
     print('------')
 
 
+@bot.on_error
+async def on_error(ctx: object, error: Exception):
+    embed = discord.Embed(title = 'Error', description = str(error), colour = discord.Colour.red())
+    await ctx.send(embed = embed)
+
+
 if __name__ == '__main__':
     bot.run(Config.DISCORD_BOT_TOKEN)
