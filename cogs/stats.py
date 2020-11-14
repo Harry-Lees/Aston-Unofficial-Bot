@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from config import DiscordConfig
 from discord.ext import commands
 from discord.utils import get
-
+import uuid
 
 def setup(bot: object) -> None:
     bot.add_cog(Stats(bot))
@@ -71,7 +71,7 @@ class Stats(commands.Cog):
         Command gives various stats about the number of members joining the server.
         '''
 
-        filename = 'temp.png'
+        filename = f'{uuid.uuid1()}.png'
         author = ctx.message.author
         guild = author.guild
         
@@ -117,7 +117,6 @@ class Stats(commands.Cog):
             remove(filename)
 
 
-
     @commands.command('member_log')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def member_log(self, ctx: object):
@@ -125,7 +124,7 @@ class Stats(commands.Cog):
         Command gives various stats about the number of members on the server.
         '''
 
-        filename = 'temp.png'
+        filename = f'{uuid.uuid1()}.png'
         author = ctx.message.author
         guild = author.guild
         
