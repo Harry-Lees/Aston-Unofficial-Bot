@@ -169,7 +169,7 @@ class Stats(commands.Cog):
     
     @commands.command('message_stats')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
-    async def message_stats(ctx: object, channel: discord.TextChannel):
+    async def message_stats(self, ctx: object, channel: discord.TextChannel):
         filename = f'{uuid.uuid1()}.png'
         author = ctx.message.author
         guild = author.guild
