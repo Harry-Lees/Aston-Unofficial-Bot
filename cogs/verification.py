@@ -68,11 +68,6 @@ class Verification(commands.Cog):
         thread.start()
 
 
-    async def _error(self, ctx, error: Exception):
-        embed = discord.Embed(title = 'Error', description = str(error), colour = discord.Colour.red())
-        await ctx.send(embed = embed)
-
-
     async def on_member_join(self, member: object) -> None:
         '''
         builtin Discord.py function called whenever a user joins the

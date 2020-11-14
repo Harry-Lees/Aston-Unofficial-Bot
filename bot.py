@@ -32,6 +32,12 @@ async def on_ready() -> None:
 
 
 @bot.event
+async def on_command_error(ctx: object, error: Exception):
+    embed = discord.Embed(title = 'Error', description = str(error), colour = discord.Colour.red())
+    await ctx.send(embed = embed)
+
+
+@bot.event
 async def on_error(ctx: object, error: Exception):
     embed = discord.Embed(title = 'Error', description = str(error), colour = discord.Colour.red())
     await ctx.send(embed = embed)
