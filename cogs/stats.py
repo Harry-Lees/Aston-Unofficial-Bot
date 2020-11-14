@@ -116,6 +116,11 @@ class Stats(commands.Cog):
             remove(filename)
 
 
+    @join_log.error
+    async def join_log_error(self, ctx: object, error: Exception) -> None:
+        await self._error(ctx, error)
+
+
     @commands.command('member_log')
     @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def member_log(self, ctx: object):
@@ -170,6 +175,11 @@ class Stats(commands.Cog):
 
             await ctx.send(file = file, embed = embed)
             remove(filename)
+
+
+    @member_log.error
+    async def member_log_error(self, ctx: object, error: Exception) -> None:
+        await self._error(ctx, error)
 
     
     @commands.command(name = 'message_stats')
