@@ -31,7 +31,8 @@ class CustomHelp(commands.HelpCommand):
 
         return (
                f'Type `{self.clean_prefix}{command_name} <command>` for more info on a command.\n'
-               f'You can also type `{self.clean_prefix}{command_name} <category>` for more info on a category.'
+               f'You can also type `{self.clean_prefix}{command_name} <category>` for more info on a category.\n'
+               f'For more information you can [View Commands](https://aston-unofficial.herokuapp.com/) on our [Website](https://aston-unofficial.herokuapp.com/)'
                )
 
 
@@ -54,12 +55,12 @@ class CustomHelp(commands.HelpCommand):
 
         for cog, commands in mapping.items():
             if cog:
-                e.add_field(name = cog.qualified_name, value = cog.description, inline = False)
+                e.add_field(name = cog.qualified_name, value = '\n'.join(command.name for command in commands), inline = True)
             else:
-                e.add_field(name = 'Core', value = 'core commands', inline = False)
+                e.add_field(name = 'Core', value = '\n'.join(command.name for command in commands), inline = True)
 
-            e.add_field(name = 'Command', value = '\n'.join(command.name for command in commands), inline = True)
-            e.add_field(name = 'Usage', value = '\n'.join(self.shorten_text(command.help) if command.help else 'No description' for command in commands), inline = True)
+            e.add_field(name = '\u200b', value = '\n'.join(self.shorten_text(command.help) if command.help else 'No description' for command in commands), inline = True)
+            e.add_field(name = '\u200b', value = '\u200b', inline = False) # use to ensure the next field is in a new row
 
         e.set_footer(text = f'Sent on {datetime.now().date()}')
 
