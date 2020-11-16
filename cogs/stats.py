@@ -215,3 +215,19 @@ class Stats(commands.Cog, name = 'Stats'):
 
             await ctx.send(embed = embed, file = file)
             remove(filename)
+
+
+    @bot.command(name = 'role_stats')
+    async def role_stats(self, ctx: object, role: discord.Role) -> None:
+        author = ctx.message.author
+        guild = author.guild
+
+        embed = discord.Embed(title = 'Role Stats', colour = role.colour)
+        embed.set_thumbnail(url = guild.icon_url)
+
+        embed.add_field(name = 'Number of Members', value = len(role.members), inline = True)
+        embed.add_field(name = 'Created on', value = role.created_at.date(), inline = True)
+
+        embed.add_field(name = 'Members', value = ', '.join(member.nick if member.nick else member.name for member in role.members), inline = False)
+
+        await ctx.send(embed = embed)
