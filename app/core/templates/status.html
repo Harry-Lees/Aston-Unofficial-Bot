@@ -1,0 +1,65 @@
+{% extends 'core_base.html' %}
+
+
+{% block content %}
+    <h1>Status</h1>
+    <p class='text-muted'>
+        This page is automatically updated every 10 mintues
+    </p>
+
+    <table class='table table-borderless mt-5'>
+        <thead>
+            <tr>
+                <th scope='col'>Feature</th>
+                <th scope='col'>Status</th>
+                <th scope='col'>Notes</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>Website</td>
+                <td class='text-success'>Operational</td>
+                <td><i>No notes to display</i></td>
+            </tr>
+            <tr>
+                <td>Verification</td>
+                <td class='text-success'>Operational</td>
+                <td><i>No notes to display</i></td>
+            </tr>
+            <tr>
+                <td>Bot</td>
+                <td class='text-success'>Operational</td>
+                <td><i>No notes to display</i></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h2 class='mt-5'>
+        Maintenance
+    </h2>
+    <p class='lead text-muted'><i>
+            There is no planned maintenance at this time
+        </i></p>
+
+    <h2 class='mt-5'>
+        Report Issue
+    </h2>
+
+    <form>
+        <select class='form-control'>
+            <option>Bot</option>
+            <option>Verification</option>
+            <option>Website</option>
+            <option>Other</option>
+        </select>
+
+        <div class='form-group mt-2'>
+            <textarea class='form-control' id='exampleFormControlTextarea1' rows='3' placeholder='Please describe the issue'></textarea>
+        </div>
+
+        <button type='submit' class='btn btn-primary'>Submit</button>
+    </form>
+{% endblock %}

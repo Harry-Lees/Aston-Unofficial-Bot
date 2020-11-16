@@ -1,0 +1,22 @@
+{% extends 'core_base.html' %}
+
+{% block content %}
+    <h1>Commands</h1>
+
+    <table class = 'table table-borderless'>
+        <thead class = 'mt-5'>
+            <tr>
+                <th scope="col">Command</th>
+                <th scope="col">Usage</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for command in commands %}
+            <tr>
+                <td>{{ command[0] }}</td>
+                <td>{{ command[1] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'core_base.html' %}
+
+{% block content %}
+    <h1>Help</h1>
+
+    <h2 class = 'mt-5'>FAQ</h2>
+
+    <div class = 'mt-5'>
+        <h3>Can I add this bot to my server?</h3>
+        <p class = 'text-muted lead'>
+            If you're in any way affiliated with Aston Univeristy,
+            you're eligable to have this bot on your server. 
+            Please get into contact with us with the form below.
+        </p>
+    </div>
+
+    <div class = 'mt-4'>
+        <h3>How does the verification work?</h3>
+        <p class = 'text-muted lead'>
+            Our verification system works by requesting users sign in with their email and then
+            assigning them a role once they've input their email address and clicked on an email link.
+        </p>
+    </div>
+
+    <div class = 'mt-4'>
+        <h3>How can we trust you?</h3>
+        <p class = 'text-muted lead'>
+            This project is entirely open source, you can access the code through the Github link in the navigation bar, meaning you have complete transparency about our system.
+        </p>
+    </div>
+
+    <div class = 'mt-4'>
+        <h3>Are you affiliated with Aston Univeristy?</h3>
+        <p class = 'text-muted lead'>
+            This project is maintained in it's entirety by <i>students</i> at Aston University.
+            We are in <i>no way</i> officially affiliated with the Univeristy.
+        </p>
+    </div>
+
+    <div class = 'mt-5'>
+        <h2>Anything else?</h2>
+
+        <form>
+            <div class='form-group mt-2'>
+                <textarea class = 'form-control' id = 'exampleFormControlTextarea1' rows = '3' placeholder = 'What can we help you with?'></textarea>
+            </div>
+    
+            <button type='submit' class='btn btn-primary'>Submit</button>
+        </form>
+    </div>
+{% endblock %}
