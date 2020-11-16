@@ -12,7 +12,7 @@ blueprint = Blueprint('user', __name__, template_folder = 'templates')
 @blueprint.route('/callback')
 def callback():
     discord.callback()
-    return redirect(url_for('user.me'))
+    return redirect(url_for('user.manage_server'))
 
 
 @blueprint.route('/login')
@@ -29,18 +29,13 @@ def logout():
 
 @blueprint.errorhandler(Unauthorized)
 def redirect_unauthorized(e):
-    return redirect(url_for("user.login"))
+    return redirect(url_for('user.login'))
 
 
-@blueprint.route('/me')
-def me():
+@blueprint.route('/manage_server')
+@requires_authorization
+def manage_server():
     user = discord.fetch_user()
-    return f"""
-    <html>
-        <head>
-            <title>{user.name}</title>
-        </head>
-        <body>
-            <img src='{user.avatar_url}' />
-        </body>
-    </html>"""
+    guilds = discord.fetch_guilds()
+
+    return render_template('setup.html', user = user, guilds = guilds)
