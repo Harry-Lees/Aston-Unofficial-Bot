@@ -45,7 +45,7 @@ def profile():
     commits = response.json()
     updates = []
 
-    for commit in commits:
+    for commit in commits[:5]:
         temp = Update('Github', commit['commit']['committer']['name'], commit['commit']['message'])
         updates.append(temp)
 
