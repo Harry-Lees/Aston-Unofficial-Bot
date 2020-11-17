@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import current_user, login_user, logout_user
 from flask_discord import requires_authorization, Unauthorized
+import requests
 
 from app.extensions import bcrypt, database, discord
 from .models import User
 from .forms import LoginForm, RegisterForm
+from .updates import Update
 
 blueprint = Blueprint('user', __name__, template_folder = 'templates')
 
@@ -39,6 +41,14 @@ def manage_server():
 @blueprint.route('/profile')
 @requires_authorization
 def profile():
+    response = requests.get('https://api.github.com/repos/Harry-Lees/Aston-Unofficial-Bot/commits')
+    commits = response.json()
+    updates = []
+
+    for commit in commits:
+        temp = Update('Github', commit['commit']['committer']['name'], commit['commit']['message'])
+        updates.append(temp)
+
     user = discord.fetch_user()
     return render_template('profile.html', user = user)
 

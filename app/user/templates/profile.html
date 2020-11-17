@@ -16,4 +16,22 @@
             </div>
         </div>
     </div>
+
+    <div class = 'mt-5'>
+        <h2>Latest Updates</h2>
+        <hr>
+
+        {% for update in updates %}
+            <div class = 'card'>
+                <div class = 'card-body'>
+                    <h5 class = 'text-primary'><b>{{ update.type }}</b></h5>
+                    <h3 class = 'text-muted mt-3'>{{ update.title }}</h3>
+                    <hr>
+                    <p class = 'text-muted lead'>
+                        {{ update.text }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
