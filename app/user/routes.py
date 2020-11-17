@@ -27,11 +27,6 @@ def logout():
     return redirect(url_for('core.index'))
 
 
-@blueprint.errorhandler(Unauthorized)
-def redirect_unauthorized(e):
-    return redirect(url_for('user.login'))
-
-
 @blueprint.route('/manage_server')
 @requires_authorization
 def manage_server():
@@ -39,3 +34,15 @@ def manage_server():
     guilds = discord.fetch_guilds()
 
     return render_template('setup.html', user = user, guilds = guilds)
+
+
+@blueprint.route('/profile')
+@requires_authorization
+def profile():
+    user = discord.fetch_user()
+    return render_template('profile.html', user = user)
+
+
+@blueprint.errorhandler(Unauthorized)
+def redirect_unauthorized(e):
+    return redirect(url_for('user.login'))

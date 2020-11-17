@@ -1,0 +1,10 @@
+{% extends 'user_base.html' %}
+
+{% block content %}
+<h1>Profile</h1>
+
+<div class = 'mt-5'>
+    <img class = 'round' src = '{{ user.avatar_url }}'>
+    {{ user.name }}
+</div>
+{% endblock %}
