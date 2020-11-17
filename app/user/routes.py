@@ -33,7 +33,7 @@ def manage_server():
     user = discord.fetch_user()
     guilds = discord.fetch_guilds()
 
-    return render_template('setup.html', user = user, guilds = guilds)
+    return render_template('server.html', user = user, guilds = guilds)
 
 
 @blueprint.route('/profile')
