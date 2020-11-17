@@ -217,7 +217,8 @@ class Stats(commands.Cog, name = 'Stats'):
             remove(filename)
 
 
-    @bot.command(name = 'role_stats')
+    @commands.command(name = 'role_stats')
+    @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def role_stats(self, ctx: object, role: discord.Role) -> None:
         author = ctx.message.author
         guild = author.guild
