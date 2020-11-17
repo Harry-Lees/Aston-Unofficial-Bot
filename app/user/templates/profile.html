@@ -4,7 +4,16 @@
     <h1>Profile</h1>
 
     <div class = 'mt-5'>
-        <img class = 'round' src = '{{ user.avatar_url }}'>
-        {{ user.name }}
+        <div class = 'card'>
+            <div class = 'card-body'>
+                <div class = 'd-flex'>
+                    <img class = 'rounded' src = 'https://cdn.discordapp.com/avatars/242691204502913024/0c8e4f9da75a5baedc93cd71663d2c55.png'>
+                    <div class = 'ml-3'>
+                        <h2 class = 'text-muted'>{{ user.name }} #{{ user.discriminator }}</h2>
+                        <h5 class = 'text-muted'>ID {{ user.id }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

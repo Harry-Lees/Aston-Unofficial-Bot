@@ -27,7 +27,7 @@ def logout():
     return redirect(url_for('core.index'))
 
 
-@blueprint.route('/manage_server')
+@blueprint.route('/server')
 @requires_authorization
 def manage_server():
     user = discord.fetch_user()
