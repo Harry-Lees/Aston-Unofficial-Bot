@@ -50,7 +50,7 @@ def profile():
         updates.append(temp)
 
     user = discord.fetch_user()
-    return render_template('profile.html', user = user)
+    return render_template('profile.html', user = user, updates = updates)
 
 
 @blueprint.errorhandler(Unauthorized)
