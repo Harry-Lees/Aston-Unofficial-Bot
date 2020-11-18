@@ -1,7 +1,3 @@
-import os
-import sqlite3
-from threading import Thread
-
 from flask import Flask
 
 from .extensions import database, mail, login_manager, bcrypt, discord

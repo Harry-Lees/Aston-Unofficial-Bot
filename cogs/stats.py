@@ -229,6 +229,6 @@ class Stats(commands.Cog, name = 'Stats'):
         embed.add_field(name = 'Number of Members', value = len(role.members), inline = True)
         embed.add_field(name = 'Created on', value = role.created_at.date(), inline = True)
 
-        embed.add_field(name = 'Members', value = ', '.join(member.nick if member.nick else member.name for member in role.members), inline = False)
+        embed.add_field(name = 'Members', value = ', '.join(member.nick if member.nick else member.name for member in role.members)[:1000] + '...', inline = False)
 
         await ctx.send(embed = embed)

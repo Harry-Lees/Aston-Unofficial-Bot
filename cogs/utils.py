@@ -45,6 +45,7 @@ class Utils(commands.Cog, name = 'Utils'):
 
 
     @commands.command(name = 'server_expansion')
+    @commands.has_role(DiscordConfig.ADMIN_ROLE)
     async def server_expansion(self, ctx: object):
         author = ctx.message.author
         guild = author.guild
