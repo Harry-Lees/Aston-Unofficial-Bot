@@ -146,7 +146,7 @@ class Verification(commands.Cog, name = 'Verification'):
         description = f'Please [click here](https://aston-unofficial.herokuapp.com/discord/register?user_id={member.id}) to verify your account.'
 
         embed = discord.Embed(title = 'Verification Link', description = description, color = discord.Colour.green())
-        embed.add_field(name = 'Next Steps', value = 'After you have completed the verification process please remember to select your subject and interests in the <#756115420175532133> channel!')
+        embed.add_field(name = 'Next Steps', value = '**To access subject-relevant channels**, please (re)select your subject in the <#756115420175532133> channel! \n If you\'re new, you may want to *select your interests*, too!')
 
         await ctx.send(embed = embed)
 
