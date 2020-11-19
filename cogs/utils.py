@@ -43,8 +43,6 @@ class Utils(commands.Cog, name = 'Utils'):
         '''
 
         try:
-            print(Config.HEROKU_API_KEY, ' ', Config.APP_ID)
-
             heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
             app = heroku_conn.app(Config.APP_ID)
 

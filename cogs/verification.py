@@ -243,6 +243,8 @@ class Verification(commands.Cog, name = 'Verification'):
             cursor.execute('SELECT * FROM discord_user_tab WHERE id = %s', [str(member.id)])
             user = cursor.fetchone()
 
+        print(user)
+
         if user:
             if user[2]:
                 verified = True
