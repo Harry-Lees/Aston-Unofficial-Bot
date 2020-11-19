@@ -1,8 +1,10 @@
 import discord
 
-from config import DiscordConfig
+from config import Config, DiscordConfig
 from discord.ext import commands
 from discord.utils import get
+
+import heroku3
 
 
 def setup(bot: object) -> None:
@@ -40,7 +42,27 @@ class Utils(commands.Cog, name = 'Utils'):
         Pong. Pings the server to check if it's up.
         '''
 
-        embed = discord.Embed(title = 'Pong', description = f':stopwatch: latency: {self.bot.latency*1000:.2f}ms', color = discord.Colour.green())
+        embed = discord.Embed(title = 'Pong')
+
+        try:
+            heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
+            app = heroku_conn.app(Config.APP_ID)
+
+            builds = sorted(app.builds(), key = lambda x : x.created_at)
+            latest_build = builds[-1]
+            embed.add_field(name = 'Build status', value = latest_build.status)
+
+            if latest_build.status == 'succeeded':
+                embed._colour = discord.Colour.green()
+            elif latest_build.status == 'pending':
+                embed._colour = discord.Colour.orange()
+        except Exception as error:
+            print(f'error - {error}')
+            embed.colour = discord.Colour.red()
+
+        embed.add_field(name = 'Latency', value = f'{self.bot.latency*1000:.2f}ms')
+        embed.set_thumbnail(url = self.bot.user.avatar_url)
+
         await ctx.send(embed = embed)
 
 

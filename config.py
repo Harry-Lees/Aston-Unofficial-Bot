@@ -39,6 +39,9 @@ class Config:
     DISCORD_REDIRECT_URI = getenv('DISCORD_REDIRECT_URI')
     DISCORD_BOT_TOKEN = getenv('DISCORD_BOT_TOKEN')
 
+    HEROKU_API_KEY = getenv('HEROKU_API_KEY')
+    APP_ID = getenv('APP_ID')
+
 class HerokuConfig(Config):
     SQLALCHEMY_DATABASE_URI = ''
     

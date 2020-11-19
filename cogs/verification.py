@@ -235,7 +235,7 @@ class Verification(commands.Cog, name = 'Verification'):
         verified = False
 
         if not isinstance(member, discord.Member):
-            member = get(author.guild.members, name = member)    
+            member = get(author.guild.members, name = member)
 
         with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection:
             cursor = connection.cursor()
@@ -271,6 +271,29 @@ class Verification(commands.Cog, name = 'Verification'):
 
         await ctx.send(embed = embed)
 
+
+    @commands.command(name = 'email_profile')
+    @commands.has_role(DiscordConfig.ADMIN_ROLE)
+    async def email_profile(self, ctx: object, email: str) -> None:
+        author = ctx.message.author
+
+        with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection:
+            cursor = connection.cursor()
+
+            cursor.execute('SELECT * FROM discord_user_tab WHERE email = %s', [email])
+            user = cursor.fetchone()
+
+        if user:
+            member = get(author.guild.members, id = int(user[0]))
+
+            embed = discord.Embed(title = member.nick or member.name, colour = discord.Colour.green())
+            embed.add_field(name = 'Verified', value = user[2], inline = False)
+
+            embed.set_thumbnail(url = member.avatar_url)
+        else:
+            embed = discord.Embed(title = 'No User found', description = 'No user is registered with that email', colour = discord.Colour.red())
+
+        await ctx.send(embed = embed)
 
     def database_notify(self) -> None: # I think there's a better way of doing this. Please find it :D
         '''

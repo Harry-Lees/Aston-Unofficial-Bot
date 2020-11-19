@@ -13,3 +13,4 @@ flask_login
 matplotlib
 Flask-Discord
 requests
+heroku3
