@@ -42,23 +42,27 @@ class Utils(commands.Cog, name = 'Utils'):
         Pong. Pings the server to check if it's up.
         '''
 
-        embed = discord.Embed(title = 'Pong')
-
         try:
+            print(Config.HEROKU_API_KEY, ' ', Config.APP_ID)
+
             heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
             app = heroku_conn.app(Config.APP_ID)
 
             builds = sorted(app.builds(), key = lambda x : x.created_at)
             latest_build = builds[-1]
-            embed.add_field(name = 'Build status', value = latest_build.status)
 
             if latest_build.status == 'succeeded':
-                embed._colour = discord.Colour.green()
+                colour = discord.Colour.green()
             elif latest_build.status == 'pending':
-                embed._colour = discord.Colour.orange()
+                colour = discord.Colour.orange()
+
+            embed = discord.Embed(title = 'Pong', colour = colour)
+            embed.add_field(name = 'Build status', value = latest_build.status)
+
         except Exception as error:
             print(f'error - {error}')
-            embed.colour = discord.Colour.red()
+            embed = discord.Embed(title = 'Pong', colour = discord.Colour.red())
+
 
         embed.add_field(name = 'Latency', value = f'{self.bot.latency*1000:.2f}ms')
         embed.set_thumbnail(url = self.bot.user.avatar_url)
