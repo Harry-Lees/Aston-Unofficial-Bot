@@ -240,7 +240,7 @@ class Verification(commands.Cog, name = 'Verification'):
         with psycopg2.connect(Config.SQLALCHEMY_DATABASE_URI) as connection:
             cursor = connection.cursor()
 
-            cursor.execute('SELECT * FROM discord_user_tab WHERE id = %(member_id)s', {'member_id' : str(member.id)})
+            cursor.execute('SELECT * FROM discord_user_tab WHERE id = %s', [str(member.id)])
             user = cursor.fetchone()
 
         if user:
@@ -267,7 +267,7 @@ class Verification(commands.Cog, name = 'Verification'):
         embed.add_field(name = 'Joined Discord on', value = member.joined_at.strftime('%Y-%m-%d'), inline = True)
         embed.add_field(name = 'Joined Server on', value = member.created_at.strftime('%Y-%m-%d'), inline = True)
 
-        embed.add_field(name = 'Roles', value = ', '.join(role.name for role in member.roles if not role.name.startswith('▬')), inline = False)
+        embed.add_field(name = 'Roles', value = ', '.join(role.name for role in member.roles if not role.name.startswith('▬'))[:1000] + '...', inline = False)
 
         await ctx.send(embed = embed)
 
