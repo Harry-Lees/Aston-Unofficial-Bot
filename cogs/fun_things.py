@@ -314,14 +314,14 @@ class FunThings(cmds.Cog, name = 'FunThings'):
         if not error:
             result = result[0] # only the first line
 
-            embed = discord.Embed(title = 'Converted MIPS')
+            embed = discord.Embed(title = 'Converted MIPS', colour = discord.Colour.green())
             embed.add_field(name = 'Binary', value = result)
 
             binary_string = result.replace(' ', '')
             binary = int(binary_string, 2)
             h = hex(binary)
 
-            embed.add_field(name = 'Hex', value = str(h), colour = discord.Colour.green())
+            embed.add_field(name = 'Hex', value = str(h))
 
             await ctx.send(embed = embed)
 
