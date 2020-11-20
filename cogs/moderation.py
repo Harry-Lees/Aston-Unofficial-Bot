@@ -17,11 +17,6 @@ class Moderation(commands.Cog, name = 'Moderation'):
         self.bot = bot
 
 
-    async def _error(self, ctx, error: Exception):
-        embed = discord.Embed(title = 'Error', description = str(error), colour = discord.Colour.red())
-        await ctx.send(embed = embed)
-
-
     @commands.command(name = 'mute')
     async def mute(self, ctx: object, member: Union[discord.Member, str]):
         author = ctx.message.author
@@ -34,11 +29,6 @@ class Moderation(commands.Cog, name = 'Moderation'):
         await ctx.send(f'{member.name} has been muted')
 
 
-    @mute.error
-    async def mute_error(self, ctx: object, error: Exception):
-        await self._error(error)
-
-
     @commands.command(name = 'unmute')
     async def unmute(self, ctx: object, member: Union[discord.Member, str]):
         author = ctx.message.author
@@ -49,7 +39,3 @@ class Moderation(commands.Cog, name = 'Moderation'):
 
         await member.edit(mute = False)
         await ctx.send(f'{member.name} has been unmuted')
-
-    @unmute.error
-    async def unmute_error(self, ctx: object, error: Exception):
-        await self._error(error)

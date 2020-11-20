@@ -11,10 +11,9 @@ __status__ = 'Development'
 
 # setup Discord connection
 bot = commands.Bot(command_prefix = '!')
-print(CustomHelp())
 bot.help_command = CustomHelp()
 
-cogs = ('cogs.verification', 'cogs.utils', 'cogs.stats', 'cogs.moderation')
+cogs = ('cogs.verification', 'cogs.utils', 'cogs.stats', 'cogs.moderation', 'cogs.fun_things')
 for cog in cogs:
     bot.load_extension(cog)
 
