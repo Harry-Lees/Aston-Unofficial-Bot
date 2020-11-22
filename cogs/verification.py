@@ -33,7 +33,7 @@ class Verification(commands.Cog, name = 'Verification'):
     - You will be asked to provide your "aston.ac.uk" email address so we can properly verify that you go to Aston University.
 
     **To re-verify, please click on the link below:**
-    https://aston-unofficial.herokuapp.com/discord/register?user_id={}
+    https://astonunofficial.co.uk/discord/register?user_id={}
 
 
     If you have any questions, please feel free to contact a Moderator by opening a ticket.
@@ -44,7 +44,7 @@ class Verification(commands.Cog, name = 'Verification'):
     Thanks for joining the **Aston Unofficial Discord Server**
 
     Please verify your email by clicking below:
-    https://aston-unofficial.herokuapp.com/discord/register?user_id={}
+    https://astonunofficial.co.uk/discord/register?user_id={}
 
     :warning: You will not be able to join the server without an aston.ac.uk email address :warning:
 
@@ -143,7 +143,7 @@ class Verification(commands.Cog, name = 'Verification'):
         if not isinstance(member, discord.Member):
             member = get(author.guild.roles, name = member)
 
-        description = f'Please [click here](https://aston-unofficial.herokuapp.com/discord/register?user_id={member.id}) to verify your account.'
+        description = f'Please [click here](https://astonunofficial.co.uk/discord/register?user_id={member.id}) to verify your account.'
 
         embed = discord.Embed(title = 'Verification Link', description = description, color = discord.Colour.green())
         embed.add_field(name = 'Next Steps', value = '**To access subject-relevant channels**, please (re)select your subject in the <#756115420175532133> channel! \n If you\'re new, you may want to *select your interests*, too!')
