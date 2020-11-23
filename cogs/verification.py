@@ -43,8 +43,7 @@ class Verification(commands.Cog, name = 'Verification'):
     welcome_message = '''
     Thanks for joining the **Aston Unofficial Discord Server**
 
-    Please verify your email by clicking below:
-    http://astonunofficial.co.uk/discord/register?user_id={}
+    Please verify your email by [clicking here](http://astonunofficial.co.uk/discord/register?user_id={})
 
     :warning: You will not be able to join the server without an aston.ac.uk email address :warning:
 
@@ -72,16 +71,20 @@ class Verification(commands.Cog, name = 'Verification'):
         thread.start()
 
 
+    @commands.Cog.listener()
     async def on_member_join(self, member: object) -> None:
         '''
         builtin Discord.py function called whenever a user joins the
         Discord server.
         '''
 
-        embed = discord.Embed(title = 'Welcome', description = welcome_message.format(member.id), color = discord.Colour.green())
+        print('called')
+
+        embed = discord.Embed(title = 'Welcome', description = self.welcome_message.format(member.id), color = discord.Colour.green())
         await member.send(embed = embed)
 
 
+    @commands.Cog.listener()
     async def on_member_remove(self, member: object) -> None:
         '''
         builtin Discord.py function called whenever a user leaves the
