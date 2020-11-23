@@ -11,10 +11,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for command in commands %}
+            {% for command, usage in commands %}
             <tr>
-                <td>{{ command[0] }}</td>
-                <td>{{ command[1] }}</td>
+                <td>{{ command }}</td>
+                <td>{{ usage }}</td>
             </tr>
             {% endfor %}
         </tbody>

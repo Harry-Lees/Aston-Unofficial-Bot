@@ -1,0 +1,97 @@
+<HTML lang = 'en'>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content = 'width=device-width, initial-scale=1, shrink-to-fit=no'>
+        <meta name='description' content = 'Aston Unofficial Official Website'>
+        <meta name='author' content = 'Harry Lees'>
+        <link rel='icon' href = '{{ url_for("static", filename = "images/logo.jpg") }}'>
+    
+        <title>Aston Unofficial</title>
+    
+        <!-- Bootstrap core CSS -->
+        <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css' integrity='sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN' crossorigin='anonymous'> 
+
+        <!-- Font Awesome CDN -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    </head>
+
+    <style>
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-scroller .nav-link {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            font-size: .875rem;
+        }
+
+        .underline {
+            line-height: 1;
+            border-bottom: 1px solid #e5e5e5;
+        }
+    </style>
+
+    <body>
+        <div class = 'container mt-5'>
+            <main>
+                <h1>Quiz Support</h1>
+                <hr>
+
+                <div class = 'd-flex mb-4'>
+                    <button class = 'btn btn-primary mr-2'>All</button>
+                    <button class = 'btn btn-primary mr-2'>Computer Systems</button>
+                    <button class = 'btn btn-primary mr-2'>Maths for Computing Professionals</button>
+
+                </div>
+
+                {% for quiz in quizzes %}
+                    <a href = '/quiz_support/quiz/{{ quiz.title }}' style = 'text-decoration: none;'>
+                        <div class = 'card mb-2'>
+                            <div class = 'card-body'>
+                                <h5 class = 'text-primary'>{{ quiz.type }}</h5>
+                                <h2>{{ quiz.title }}</h2>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+
+            </main>
+
+            <!-- Bootstrap Javascript -->
+            <script src = "https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            
+            <script>
+                window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+            </script>
+            
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
+            
+            <script>
+                Holder.addTheme('thumb', {
+                    bg: '#55595c',
+                    fg: '#eceeef',
+                    text: 'Thumbnail'
+                });
+            </script>
+
+        </div>
+    </body>
+</HTML>
