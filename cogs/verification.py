@@ -32,6 +32,7 @@ class Verification(commands.Cog, name = 'Verification'):
     - If you are a *lecturer* or someone from another year group, please contact a Moderator to get manually verified.
 
     - You will be asked to provide your "aston.ac.uk" email address so we can properly verify that you go to Aston University.
+    
     '''
 
 
