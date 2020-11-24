@@ -1,6 +1,9 @@
 from os import getenv
 import os
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+
 class DiscordConfig:
     ADMIN_ROLE = 'Mod' # name of admin role
     STUDENT_2020_ROLE = '2020' # name of student 2020 role
@@ -43,6 +46,8 @@ class Config:
 
     HEROKU_API_KEY = getenv('HEROKU_API_KEY')
     APP_ID = getenv('APP_ID')
+
+    UPLOAD_FOLDER = os.path.join(basedir, 'app/static/uploads')
 
 class HerokuConfig(Config):
     SQLALCHEMY_DATABASE_URI = ''

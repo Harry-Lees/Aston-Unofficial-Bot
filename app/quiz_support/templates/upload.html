@@ -92,7 +92,7 @@
                     <div class = 'card-body'>
                         <h3>Add Answer</h3>
 
-                        <form action = '{{ url_for("quiz_support.upload") }}' method = 'POST'>
+                        <form action = '{{ url_for("quiz_support.upload") }}' method = 'POST' enctype = 'multipart/form-data'>
                             {{ answer_form.csrf_token }}
                             
                             <div class = 'form-row'>
@@ -112,7 +112,7 @@
                                 {{ answer_form.description(class = 'form-control') }}
                             </div>
 
-                            <div class="custom-file mt-4">
+                            <div class="custom-file mt-4" id = 'customFile'>
                                 {{ answer_form.file.label(class = 'custom-file-label') }}
                                 {{ answer_form.file(class = 'custom-file') }}
                             </div>

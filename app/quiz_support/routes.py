@@ -1,10 +1,16 @@
-from flask import Blueprint, render_template
+import os
+import sys
+
 from app.extensions import database
-from .models import Quiz, Variant, Question
-from .forms import QuizForm, AnswerForm
+from flask import Blueprint, render_template, current_app, url_for
+from werkzeug.utils import secure_filename
+
+from .forms import AnswerForm, QuizForm
+from .models import Question, Quiz, Variant
+
 
 blueprint = Blueprint('quiz_support', __name__, template_folder = 'templates', url_prefix = '/quiz_support')
-
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 @blueprint.route('/')
 def index():
@@ -40,9 +46,22 @@ def upload():
         quiz = answer_form.quiz.data
         question = Question.query.filter_by(quiz = quiz, question_id = 1).first()
 
+        # Save the file
+        if answer_form.file.data:
+            file = answer_form.file.data
+
+            file_name = secure_filename(file.filename)
+            file_path = os.path.join(current_app.config.get('UPLOAD_FOLDER'), file_name)
+
+            file.save(file_path)
+            print('saved file')
+        else:
+            file_path = None
+
+        # Upload to database
         new_variant = Variant(
             question = question,
-            image_path = None,
+            image_path = file_name,
             description = answer_form.description.data,
             transcript = answer_form.transcript.data,
             answer = answer_form.answer.data
@@ -50,7 +69,5 @@ def upload():
 
         database.session.add(new_variant)
         database.session.commit()
-
-        print('answer form submitted')
 
     return render_template('upload.html', quiz_form = quiz_form, answer_form = answer_form)
