@@ -1,6 +1,7 @@
 from threading import Thread
 from typing import Union
 from time import sleep
+from random import randint
 
 import asyncio
 import discord
@@ -212,21 +213,33 @@ class Verification(commands.Cog, name = 'Verification'):
         sends a verification prompt to all users with a given role.
         '''
 
+        message_limit = 30
+        messages_sent = 0
+        failed_messages = []
+
         author = ctx.message.author
         role = get(author.guild.roles, name = role)
 
         for member in role.members:
             embed = discord.Embed(title = 'Hey!', description = reverify_message.format(member.id), color = 0x7289DA)
             try:
+                messages_sent += 1
+
+                if messages_sent % message_limit == 0:
+                    asyncio.sleep(60.0)
+
                 await member.send(embed = embed)
                 print(f'sent message to {member}')
-                await asyncio.sleep(5)
+                await asyncio.sleep(randint(1, 3))
+
             except discord.errors.HTTPException as error:
                 print(f'RATE LIMIT: failed to send message to {member}: {error}')
-                await asyncio.sleep(120)
+                await ctx.send('Rate limit exceeded, stopping send to prevent action being taken against the bot.')
+                break
+
             except Exception as error:
                 print(f'failed to send message to {member}: {error}')
-                await asyncio.sleep(120)
+                continue
 
         await ctx.send('verification prompt finished!')
 
