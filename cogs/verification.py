@@ -24,7 +24,7 @@ class Verification(commands.Cog, name = 'Verification'):
     '''
 
     reverify_message = '''
-    We've just introduced a new verification bot to ensure that all users are members of Aston University. In order to do so, we have removed everyone's member & subject role. You will have to reselect your subject role after verifying.
+    We've just introduced a new verification bot to ensure that all users are members of Aston University.
 
     - If you're currently a 2nd-year student or have had a foundation year, please contact a Moderator. You will be allowed in the Server, but
     we have to verify you manually!
@@ -150,7 +150,7 @@ class Verification(commands.Cog, name = 'Verification'):
         description = f'Please [click here](http://astonunofficial.co.uk/discord/register?user_id={member.id}) to verify your account.'
 
         embed = discord.Embed(title = 'Verification Link', description = description, color = discord.Colour.green())
-        embed.add_field(name = 'Next Steps', value = '**To access subject-relevant channels**, please (re)select your subject in the <#756115420175532133> channel! \n If you\'re new, you may want to *select your interests*, too!')
+        embed.add_field(name = 'Next Steps', value = 'don\'t forget to select your subject and interest roles in the <#756115420175532133> channel')
 
         await ctx.send(embed = embed)
 
@@ -229,6 +229,7 @@ class Verification(commands.Cog, name = 'Verification'):
                     asyncio.sleep(60.0)
 
                 await member.send(embed = embed)
+                embed.add_field(name = 'Next Steps', value = 'To access subject-relevant channels, please (re)select your subject in the #🎭roles channel!')
                 print(f'sent message to {member}')
                 await asyncio.sleep(randint(1, 3))
 
