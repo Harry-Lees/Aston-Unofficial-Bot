@@ -33,8 +33,7 @@ class Verification(commands.Cog, name = 'Verification'):
 
     - You will be asked to provide your "aston.ac.uk" email address so we can properly verify that you go to Aston University.
 
-    **To re-verify, please click on the link below:**
-    http://astonunofficial.co.uk/discord/register?user_id={}
+    To re-verify, please [click here](http://astonunofficial.co.uk/discord/register?user_id={})
     '''
 
 
