@@ -2,17 +2,17 @@ version: '3.4'
 
 services:
   flask_app:
-    restart: on-failure
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "10080:5000"
+      - "80:5000"
     env_file:
       - .env
 
   aston_bot:
-    restart: on-failure
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile.discord
