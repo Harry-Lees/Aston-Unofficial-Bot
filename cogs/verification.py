@@ -222,6 +222,8 @@ class Verification(commands.Cog, name = 'Verification'):
 
         for member in role.members:
             embed = discord.Embed(title = 'Hey!', description = self.reverify_message.format(member.id), color = 0x7289DA)
+            embed.add_field(name = 'Next Steps', value = 'To access subject-relevant channels, please (re)select your subject in the #🎭roles channel!')
+
             try:
                 messages_sent += 1
 
@@ -229,7 +231,6 @@ class Verification(commands.Cog, name = 'Verification'):
                     asyncio.sleep(60.0)
 
                 await member.send(embed = embed)
-                embed.add_field(name = 'Next Steps', value = 'To access subject-relevant channels, please (re)select your subject in the #🎭roles channel!')
                 print(f'sent message to {member}')
                 await asyncio.sleep(randint(1, 3))
 
