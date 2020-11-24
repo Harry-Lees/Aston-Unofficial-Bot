@@ -32,8 +32,6 @@ class Verification(commands.Cog, name = 'Verification'):
     - If you are a *lecturer* or someone from another year group, please contact a Moderator to get manually verified.
 
     - You will be asked to provide your "aston.ac.uk" email address so we can properly verify that you go to Aston University.
-
-    To re-verify, please [click here](http://astonunofficial.co.uk/discord/register?user_id={})
     '''
 
 
@@ -218,6 +216,7 @@ class Verification(commands.Cog, name = 'Verification'):
 
         for member in role.members:
             embed = discord.Embed(title = 'Hey!', description = self.reverify_message.format(member.id), color = 0x7289DA)
+            embed.add_field(name = 'How to Verify', value = 'To verify your account, please [click here](http://astonunofficial.co.uk/discord/register?user_id={})')
             embed.add_field(name = 'Next Steps', value = 'To access subject-relevant channels, please (re)select your subject in the #🎭roles channel!')
 
             try:
