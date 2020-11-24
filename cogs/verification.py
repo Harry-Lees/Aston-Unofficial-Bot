@@ -221,7 +221,7 @@ class Verification(commands.Cog, name = 'Verification'):
         role = get(author.guild.roles, name = role)
 
         for member in role.members:
-            embed = discord.Embed(title = 'Hey!', description = reverify_message.format(member.id), color = 0x7289DA)
+            embed = discord.Embed(title = 'Hey!', description = self.reverify_message.format(member.id), color = 0x7289DA)
             try:
                 messages_sent += 1
 
