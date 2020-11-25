@@ -144,7 +144,7 @@ class Verification(commands.Cog, name = 'Verification'):
         description = f'Please [click here](http://astonunofficial.co.uk/discord/register?user_id={member.id}) to verify your account.'
 
         embed = discord.Embed(title = 'Verification Link', description = description, color = discord.Colour.green())
-        embed.add_field(name = 'Next Steps', value = 'don\'t forget to select your subject and interest roles in the <#756115420175532133> channel. \nIf you have any questions, please feel free to contact a Moderator by opening a ticket.')
+        embed.add_field(name = 'Next Steps', value = '**Don\'t forget** to select your subject and interest roles in the <#756115420175532133> channel. \nIf you have any questions, please feel free to contact a Moderator by opening a ticket.')
 
         await ctx.send(embed = embed)
 
