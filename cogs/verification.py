@@ -26,13 +26,12 @@ class Verification(commands.Cog, name = 'Verification'):
     reverify_message = '''
     We've just introduced a new verification bot to ensure that all users are members of Aston University.
 
-    - If you're currently a 2nd-year student or have had a foundation year, please contact a Moderator. You will be allowed in the Server, but
-    we have to verify you manually!
+    - If you're currently a 2nd-year student or have had a foundation year, please contact a Moderator. You will be allowed in the Server, but we have to verify you manually!
 
     - If you are a *lecturer* or someone from another year group, please contact a Moderator to get manually verified.
 
     - You will be asked to provide your "aston.ac.uk" email address so we can properly verify that you go to Aston University.
-    
+
     '''
 
 
