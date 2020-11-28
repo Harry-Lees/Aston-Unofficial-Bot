@@ -67,10 +67,6 @@ class Variant(database.Model):
         database.ForeignKey('questions_tab.id')
     )
 
-    image_path = database.Column(
-        database.String,
-        nullable = True
-    )
 
     description = database.Column(
         database.String,

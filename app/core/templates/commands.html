@@ -6,12 +6,13 @@
     <table class = 'table table-borderless'>
         <thead class = 'mt-5'>
             <tr>
-                <th scope="col">Command</th>
-                <th scope="col">Usage</th>
+                <th scope = 'col'>Command</th>
+                <th scope = 'col'>Description</th>
+                <th scope = 'col'>Usage</th>
             </tr>
         </thead>
         <tbody>
-            {% for command, usage in commands %}
+            {% for command, description, usage in commands %}
             <tr>
                 <td>{{ command }}</td>
                 <td>{{ usage }}</td>

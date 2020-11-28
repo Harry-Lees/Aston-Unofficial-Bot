@@ -43,7 +43,6 @@ def confirm_email(token: str):
             cursor.execute(f"NOTIFY {discord_user.__tablename__}, %(email)s", {'email' : email})
             connection.commit()
 
-        print('NOTIFY sent')
         flash('You have been successfully verified! You can now continue to Discord. It may take several seconds for your roles to be assigned. If they have not been assigned within the next 5 minutes, please open a Ticket.', 'alert-success')
 
     return redirect(url_for('discord.verification_result'))
@@ -79,6 +78,11 @@ def verify_user():
                 return render_template('discord_register.html', form = form)
             elif form.email.data[:2] != '20':
                 flash('Your email address is from an unrecognised year, please contact a Moderator to be verified', 'alert-warning')
+                return render_template('discord_register.html', form = form)
+
+            member = User.query.filter_by(email = form.email.data).first()
+            if member:
+                flash('There is already a user with this email on the server', 'alert-warning')
                 return render_template('discord_register.html', form = form)
 
             user = User(
@@ -121,6 +125,7 @@ def _send_email(email: str, user_id: str):
     subject = 'Welcome to Aston Unofficial'
     
     send_email(current_app, email, subject, html)
+
 
 def generate_token(email):
     serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
