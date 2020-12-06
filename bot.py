@@ -29,7 +29,7 @@ async def on_ready() -> None:
     print(bot.user.name)
     print(bot.user.id)
     print('------')
-
+    await bot.change_presence(activity = discord.Activity(type = discord.ActivityType.listening, name = "Tony's Saxophone"))
 
 @bot.event
 async def on_command_error(ctx: object, error: Exception):
