@@ -10,12 +10,10 @@ def create_app() -> object:
     from .core.routes import blueprint as core_bp
     from .user.routes import blueprint as user_bp
     from .discord_verification.routes import blueprint as discord_bp
-    from .quiz_support.routes import blueprint as quiz_support_bp
     
     app.register_blueprint(core_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(discord_bp)
-    app.register_blueprint(quiz_support_bp)
 
     register_extensions(app)
 
