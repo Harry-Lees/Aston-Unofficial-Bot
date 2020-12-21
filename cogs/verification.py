@@ -256,8 +256,6 @@ class Verification(commands.Cog, name = 'Verification'):
             cursor.execute('SELECT * FROM discord_user_tab WHERE id = %s', [str(member.id)])
             user = cursor.fetchone()
 
-        print(user)
-
         if user:
             if user[2]:
                 verified = True
@@ -281,8 +279,8 @@ class Verification(commands.Cog, name = 'Verification'):
             embed.add_field(name = 'Email', value = user[1], inline = True)
 
         embed.add_field(name = 'Verified', value = verified, inline = False)
-        embed.add_field(name = 'Joined Discord on', value = member.joined_at.strftime('%Y-%m-%d'), inline = True)
-        embed.add_field(name = 'Joined Server on', value = member.created_at.strftime('%Y-%m-%d'), inline = True)
+        embed.add_field(name = 'Joined Discord on', value = member.created_at.strftime('%Y-%m-%d'), inline = True)
+        embed.add_field(name = 'Joined Server on', value = member.joined_at.strftime('%Y-%m-%d'), inline = True)
 
         embed.add_field(name = 'Roles', value = ', '.join(role.name for role in member.roles if not role.name.startswith('▬'))[:1000] + '...', inline = False)
 
