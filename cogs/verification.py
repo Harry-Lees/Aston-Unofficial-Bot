@@ -124,7 +124,7 @@ class Verification(commands.Cog, name = 'Verification'):
         await member.add_roles(role)
 
         embed = discord.Embed(title = 'Success!', description = f'{member.name} has been successfully verified', colour = discord.Colour.green())
-        embed.add_field(name = 'Next Steps', value = 'don\'t forget to select your subject and interest roles in the <#756115420175532133> channel')
+        embed.add_field(name = 'Next Steps', value = '**Don\'t forget** to select your subject and interest roles in the <#756115420175532133> channel. \nIf you have any questions, please feel free to contact a Moderator by opening a ticket.')
 
         await ctx.send(embed = embed)
 
